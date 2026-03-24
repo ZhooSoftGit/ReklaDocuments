@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rekla Platform Architecture Diagrams</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --bg: #f5f7f4;
+      --surface: #ffffff;
+      --surface-soft: #eef3ed;
+      --ink: #15211b;
+      --ink-muted: #41524a;
+      --line: #d6ddd5;
+      --brand: #0f766e;
+      --brand-2: #b45309;
+      --brand-3: #1d4ed8;
+      --ok: #166534;
+      --warn: #b91c1c;
+      --radius: 14px;
+      --shadow: 0 8px 24px rgba(20, 30, 24, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0% 0%, #eaf4ef 0%, transparent 40%),
+        radial-gradient(circle at 100% 20%, #f8efe2 0%, transparent 45%),
+        var(--bg);
+      font-family: "Source Sans 3", "Segoe UI", Tahoma, sans-serif;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 26px 18px 72px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #f8fcfa 0%, #fdf8f2 100%);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.3px;
+      color: var(--ink-muted);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.2;
+      color: #10372f;
+    }
+
+    .sub {
+      margin-top: 10px;
+      color: var(--ink-muted);
+      max-width: 940px;
+    }
+
+    .pills {
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+
+    .toc strong {
+      color: #10372f;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .toc a {
+      color: var(--brand-3);
+      text-decoration: none;
+      margin-right: 12px;
+      font-size: 0.93rem;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #123b33;
+    }
+
+    .priority {
+      color: #7a2e06;
+      background: #fff1e5;
+      border: 1px solid #f5d7bf;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .section p {
+      margin: 0 0 12px;
+      color: var(--ink-muted);
+    }
+
+    .diagram-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    #d2 .diagram-box {
+      padding: 26px;
+      min-height: 560px;
+    }
+
+    #d2 .mermaid {
+      min-width: 1160px;
+    }
+
+    .notes {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .note {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      color: #24372f;
+    }
+
+    .note b {
+      color: #10372f;
+    }
+
+    .foot {
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      border-top: 1px dashed var(--line);
+      padding-top: 12px;
+    }
+
+    @media (max-width: 700px) {
+      h1 {
+        font-size: 1.56rem;
+      }
+
+      .section-head h2 {
+        font-size: 1.18rem;
+      }
+
+      #d2 .mermaid {
+        min-width: 980px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: "loose",
+      theme: "base",
+      themeVariables: {
+        primaryColor: "#eaf4ef",
+        primaryTextColor: "#173c34",
+        primaryBorderColor: "#0f766e",
+        lineColor: "#4b5e55",
+        secondaryColor: "#fff3e8",
+        tertiaryColor: "#eaf0ff",
+        clusterBkg: "#f8fbf8",
+        clusterBorder: "#cfd8d0",
+        fontFamily: "Source Sans 3, Segoe UI, sans-serif"
+      },
+      flowchart: { useMaxWidth: true, htmlLabels: true, curve: "basis" },
+      sequence: { useMaxWidth: true, actorMargin: 48 }
+    });
+  </script>
+
+  <main class="container">
+    <section class="hero">
+      <div class="eyebrow">Rekla BRD + TSD synthesis</div>
+      <h1>System and Technical Architecture Diagrams</h1>
+      <p class="sub">
+        This visual pack is derived from the Master BRD, Rider BRD, Driver BRD, Admin BRD,
+        and Parent TSD. It highlights the confirmed stack, shared dispatch pipeline,
+        real-time monitoring requirements, event-driven notifications, and deployment model.
+      </p>
+      <div class="pills">
+        <span class="pill">Rider, Driver, Admin channels</span>
+        <span class="pill">Core Service + SignalR Service</span>
+        <span class="pill">Direct-pay business model support</span>
+        <span class="pill">Local, Package, Outstation flows</span>
+        <span class="pill">Book via Admin unified dispatch</span>
+      </div>
+    </section>
+
+    <section class="toc">
+      <strong>Diagrams in this document</strong>
+      <a href="#d1">1. System Context (Level 1)</a>
+      <a href="#d2">2. High-Level Architecture</a>
+      <a href="#d3">3. Sequence Diagram</a>
+      <a href="#d4">4. Event Flow Diagram</a>
+      <a href="#d5">5. Real-Time Communication</a>
+      <a href="#d6">6. Deployment / Cloud Architecture</a>
+      <a href="#d7">7. SOS / Emergency Flow</a>
+      <a href="#d8">8. Decline/Retry and No-Show</a>
+      <a href="#d9">9. Admin Intervention</a>
+      <a href="#d10">10. Driver Registration E2E</a>
+      <a href="#d11">11. Reliability and No-Loss Controls</a>
+      <a href="#d12">12. Failure Scenarios Matrix</a>
+    </section>
+
+    <section id="d1" class="section">
+      <div class="section-head">
+        <h2>1. System Context Diagram (Level 1)</h2>
+      </div>
+      <p>Primary actors, client apps, and external systems interacting with the Rekla platform.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+flowchart LR
+  Rider[Rider]
+  Driver[Driver]
+  Ops[Ops Admin]
+
+  RiderApp[Rider App\n.NET MAUI]
+  DriverApp[Driver App\n.NET MAUI]
+  AdminPortal[Admin Portal\nReact]
+
+  Rekla[Rekla Platform\nCore Service + SignalR Service]
+
+  Maps[Google Maps]
+  Otp[OTP Provider]
+  Msg[WhatsApp + Push Providers]
+  Storage[Cloudflare Storage]
+
+  Rider --> RiderApp
+  Driver --> DriverApp
+  Ops --> AdminPortal
+
+  RiderApp --> Rekla
+  DriverApp --> Rekla
+  AdminPortal --> Rekla
+
+  Rekla --> Maps
+  Rekla --> Otp
+  Rekla --> Msg
+  Rekla --> Storage
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Business fit:</b> Supports direct-pay flow where fare collection is rider to driver, with platform tracking and dispute support.</div>
+        <div class="note"><b>Admin fit:</b> Book via Admin and Quote Desk use the same dispatch pipeline as rider-created bookings.</div>
+      </div>
+    </section>
+
+    <section id="d2" class="section">
+      <div class="section-head">
+        <h2>2. High-Level Architecture Diagram</h2>
+      </div>
+      <p>Layered view based on the Parent TSD stack and module responsibilities, with Azure App Service as the primary service entry.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+flowchart LR
+  subgraph Clients[Client Layer]
+    direction TB
+    RA[Rider App\n.NET MAUI]
+    DA[Driver App\n.NET MAUI]
+    AP[Admin Portal\nReact SPA]
+  end
+
+  subgraph App[Application Layer]
+    direction TB
+    CS[Core Service\nASP.NET Core Web API]
+    SR[SignalR Service\nASP.NET Core SignalR]
+  end
+
+  subgraph Data[Data Layer]
+    direction TB
+    PG[(PostgreSQL)]
+    RD[(Redis)]
+    KV[Azure Key Vault]
+    ST[Cloudflare Storage]
+  end
+
+  subgraph Integration[Integration Layer]
+    direction TB
+    EB[Azure Event Bus]
+    MP[Google Maps Platform]
+    OT[OTP Provider]
+    NT[FCM, APNs, WhatsApp]
+  end
+
+  RA --> CS
+  DA --> CS
+  AP --> CS
+
+  SR -->|live updates| RA
+  SR -->|assignment and trip updates| DA
+  SR -->|live monitor updates| AP
+
+  CS --> PG
+  CS --> RD
+  CS --> KV
+  CS --> ST
+  CS --> EB
+  CS --> MP
+  CS --> OT
+  CS --> NT
+
+  CS -->|publish real-time events| RD
+  RD -->|subscribe relay| SR
+        </div>
+      </div>
+    </section>
+
+    <section id="d3" class="section">
+      <div class="section-head">
+        <h2>3. Sequence Diagram</h2>
+        <span class="priority">VERY IMPORTANT</span>
+      </div>
+      <p>End-to-end local ride sequence with assignment, live tracking, OTP checks, and exception handling. GPS updates are streamed via SignalR (not direct to Redis) for security and access control.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant R as Rider App
+  participant C as Core Service
+  participant D as Dispatch Engine
+  participant DR as Driver App
+  participant S as SignalR Service
+  participant RD as Redis (pub/sub)
+  participant A as Admin Portal
+  participant E as Event Bus/Notification Worker
+
+  R->>C: Create booking (pickup, drop, ride type)
+  C->>D: Start matching (eligible online drivers)
+  D->>DR: Ride request (60s accept window)
+  DR-->>D: Accept ride
+  D->>C: Assignment confirmed
+  C->>S: Push DriverAssigned + ETA
+  S-->>R: Driver details and live ETA
+  S-->>A: Ride appears in live monitor
+
+  loop Every ~5s GPS update (throttled/batched)
+    DR->>S: Driver GPS, heading, speed via WebSocket
+    S->>RD: Publish GPS to Redis channel
+    RD->>S: Fan-out to subscribed clients
+    S-->>R: Live map position update
+    S-->>A: Live map and event log updates
+  end
+
+  DR->>C: Arrived at pickup (event, not query)
+  C->>RD: Publish DriverArrived event to Redis
+  RD->>S: Fan-out to subscribed clients
+  S-->>R: Driver arrived, start OTP countdown
+  S-->>A: Event log: Driver arrived
+
+  DR->>C: Start trip with rider OTP
+  C-->>DR: OTP validation result
+  alt OTP success
+    C->>RD: Publish TripStarted event to Redis
+    RD->>S: Fan-out to subscribed clients
+    S-->>R: Trip active, cancel removed
+    S-->>A: Event log: Trip started
+  else OTP failure
+    C->>RD: Publish OTPFailed event to Redis
+    RD->>S: Fan-out
+    S-->>R: Retry OTP (rate-limited)
+    S-->>A: Event log: OTP failed
+  end
+
+  DR->>C: End trip with rider OTP
+  alt OTP success
+    C->>C: Validate OTP and compute final fare
+    C->>RD: Publish TripCompleted event to Redis
+    RD->>S: Fan-out to subscribed clients
+    C->>E: Emit post-trip notifications (rating, receipt)
+    S-->>R: Summary and rating prompt
+    S-->>A: Event log: Trip completed, ride closed
+  else OTP failure and Force End
+    DR->>C: Force End request with reason and proof
+    C->>C: Mark ride ForceEnded, flag admin review
+    C->>RD: Publish ForceEnd event to Redis
+    RD->>S: Fan-out to subscribed clients
+    S-->>R: Trip force ended, await admin decision
+    S-->>A: Alert: Force End awaiting admin review
+  end
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Security gateway:</b> Driver App connects to SignalR Service (authenticated WebSocket), NOT directly to Redis. SignalR mediates all access to streaming channels.</div>
+        <div class="note"><b>Event publishing pattern:</b> All critical events (GPS updates, DriverArrived, TripStarted, TripCompleted, ForceEnd) are published to Redis pub/sub channels. SignalR subscribes to these channels and fans out to connected Rider and Admin clients in real-time.</div>
+        <div class="note"><b>Business logic at Core Service:</b> Arrival, trip start/end, OTP verification, and fare computation remain in Core Service for audit and business rule enforcement. Core Service then publishes the outcome events to Redis.</div>
+        <div class="note"><b>Admin real-time visibility:</b> Admin Portal receives all trip state events (arrival, start, completion, force-end) via Redis fan-out, enabling live monitoring without polling the core service.</div>
+        <div class="note"><b>Throttling:</b> Driver App batches or throttles GPS sends (typically ~5s intervals). Other events (OTP, trip state) are sent immediately.</div>
+        <div class="note"><b>Control:</b> Single active ride per driver enforced during accepted and in-progress states. Trip state transitions validated by Core Service before event publication.</div>
+      </div>
+    </section>
+
+    <section id="d4" class="section">
+      <div class="section-head">
+        <h2>4. Event Flow Diagram</h2>
+      </div>
+      <p>Lifecycle and notification events spanning booking, trip execution, and support/safety escalation. Rider can cancel at any stage before trip start. Once trip starts, cancel is removed.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+flowchart TD
+  B[BookingSubmitted]
+  S1[Searching]
+  S2[DriverAssigned]
+  S3[DriverEnRoute]
+  S4[DriverArrived]
+  S5[TripStarted]
+  S6[TripCompleted]
+
+  CR[CancelledByRider<br/>Fee rules apply]
+  CD[CancelledByDriver]
+  NDF[NoDriverFound]
+  FE[ForceEnded]
+  SOS[SOSAlert]
+  SIR[SupportInterventionRequired]
+
+  N1[Event Bus Notification Event]
+  N2[Push, SMS, WhatsApp Delivery]
+  A1[Admin Alert and Review Queue]
+
+  B --> S1 --> S2 --> S3 --> S4 --> S5 --> S6
+  
+  S1 --> NDF
+  S1 -.->|user cancel| CR
+  S2 -.->|user cancel| CR
+  S3 -.->|user cancel| CR
+  S4 -.->|user cancel, fee applies| CR
+  
+  S2 --> CD
+  S3 --> CD
+  
+  S5 --> SOS --> SIR
+  S5 --> FE --> A1
+
+  S2 --> N1
+  S4 --> N1
+  S5 --> N1
+  S6 --> N1
+  CR --> N1
+  CD --> N1
+  NDF --> N1
+  SOS --> N1
+  FE --> N1
+
+  N1 --> N2
+        </div>
+      </div>
+    </section>
+
+    <section id="d5" class="section">
+      <div class="section-head">
+        <h2>5. Real-Time Communication Diagram</h2>
+      </div>
+      <p>How live updates are produced, routed, and consumed by Rider, Driver, and Admin channels.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+flowchart LR
+  Driver[Driver App]
+  Core[Core Service]
+  Redis[Redis Operational State and PubSub]
+  SignalR[SignalR Service]
+  Rider[Rider App]
+  Admin[Admin Portal Live Monitor]
+
+  Driver -->|GPS, trip status, OTP/KM checkpoints| Core
+  Core -->|update state and publish events| Redis
+  Redis -->|realtime event stream| SignalR
+  SignalR -->|driver ETA, trip status, alerts| Rider
+  SignalR -->|live map, event log, SOS, force-end alerts| Admin
+
+  Core -.->|fallback API polling when needed| Rider
+  Core -.->|fallback API polling when needed| Admin
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Latency target:</b> Admin live monitoring requirement is near real-time with up to 5 second delay.</div>
+        <div class="note"><b>Separation:</b> Business rules stay in Core Service; SignalR is delivery channel for live events.</div>
+      </div>
+    </section>
+
+    <section id="d6" class="section">
+      <div class="section-head">
+        <h2>6. Deployment / Cloud Architecture Diagram</h2>
+      </div>
+      <p>Environment and hosting model across Azure App Service and external providers, with Cloudflare used for document storage and retrieval.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+flowchart TB
+  Users[Mobile and Web Users]
+
+  subgraph Azure[Azure Subscription]
+    subgraph Env[Environments: Dev, Test, UAT, Prod]
+      AppSvc[Azure App Service\nCore Service and SignalR Service]
+      Postgres[(PostgreSQL)]
+      Redis[(Redis)]
+      Bus[Azure Event Bus]
+      Vault[Azure Key Vault]
+      Monitor[Application Insights / Azure Monitor]
+    end
+
+    Pipelines[Azure DevOps + Azure Pipelines\nCI/CD]
+  end
+
+  subgraph External[External Integrations]
+    Maps[Google Maps]
+    OtpSvc[OTP Provider]
+    Notify[WhatsApp, FCM, APNs]
+    CfStorage[Cloudflare Storage]
+  end
+
+  Users --> AppSvc
+  AppSvc --> Postgres
+  AppSvc --> Redis
+  AppSvc --> Bus
+  AppSvc --> Vault
+  AppSvc --> Monitor
+  Pipelines --> AppSvc
+
+  AppSvc --> Maps
+  AppSvc --> OtpSvc
+  AppSvc --> Notify
+  AppSvc --> CfStorage
+        </div>
+      </div>
+    </section>
+
+    <section id="d7" class="section">
+      <div class="section-head">
+        <h2>7. SOS / Emergency Alert Flow</h2>
+        <span class="priority">SAFETY CRITICAL</span>
+      </div>
+      <p>Rider can trigger SOS button during active trip to request immediate emergency assistance. Location and trip details are broadcast to emergency contacts and ops team for intervention.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant R as Rider App
+  participant C as Core Service
+  participant RD as Redis (pub/sub)
+  participant S as SignalR Service
+  participant A as Admin Portal
+  participant E as Event Bus
+  participant EC as Emergency Contact
+
+  R->>C: SOS Button Triggered (trip_id, location)
+  C->>C: Log SOS event with timestamp and proof
+  C->>RD: Publish SOSTriggered event (live location, trip details)
+  RD->>S: Fan-out SOS to subscribed admins
+  S-->>A: Real-time SOS alert + trip details + live map
+  C->>E: Emit SOSAlert notification
+  E->>EC: Send Emergency Contact SMS/Call with rider location link
+  E->>A: Send Admin Dashboard push notification
+  alt Admin Action - Contact Rider
+    A->>C: Admin initiates call/chat with rider
+    C->>S: Open support channel
+    S-->>R: Incoming admin contact / chat request
+  else Admin Action - Cancel Trip/Force End
+    A->>C: Admin cancels or force-ends the trip
+    C->>RD: Publish TripCancelled/ForceEnded via SOS
+    RD->>S: Fan-out to rider and driver
+    S-->>R: Trip cancelled due to SOS
+  end
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Real-time visibility:</b> SOS events are immediately published to Redis and pushed to Admin Portal for instant visibility. No polling required.</div>
+        <div class="note"><b>External notification:</b> Emergency contacts receive SMS/call with a link to rider's live location on a public map view (subject to privacy policy).</div>
+        <div class="note"><b>Audit trail:</b> All SOS events, admin actions, and emergency contact notifications are logged for compliance and post-incident review.</div>
+        <div class="note"><b>Single SOS per trip:</b> Once SOS is triggered, it locks the trip to prevent rider accidental re-triggers until trip ends or admin closes SOS.</div>
+      </div>
+    </section>
+
+    <section id="d8" class="section">
+      <div class="section-head">
+        <h2>8. Decline / Retry & Rider No-Show Handling</h2>
+      </div>
+      <p>Driver decline workflow with reassignment logic and rider no-show detection when driver arrives but rider is absent.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant D as Dispatch Engine
+  participant DR as Driver App
+  participant C as Core Service
+  participant RD as Redis (pub/sub)
+  participant S as SignalR Service
+  participant R as Rider App
+  participant A as Admin Portal
+
+  D->>DR: Ride Request (60s accept window)
+  alt Driver Accepts
+    DR-->>D: Accept
+    D->>C: Assignment confirmed
+    C->>RD: Publish DriverAssigned event
+    RD->>S: Fan-out to rider/admin
+    S-->>R: Driver assigned with ETA
+  else Driver Declines
+    DR-->>D: Decline
+    D->>C: Log decline event, increment driver decline count
+    alt Decline Count < 3
+      D->>D: Select next eligible driver from pool
+      D->>DR: Send ride request to next driver (loop back)
+    else Decline Count >= 3
+      C->>RD: Publish DeclineThresholdReached event
+      RD->>S: Fan-out to rider/admin
+      S-->>R: Extended matching ETA
+      S-->>A: Operational alert on high declines
+    end
+    alt Decline Count > 5
+      D->>D: Temporarily move driver to Offline
+      C->>RD: Publish DriverOfflined event (too many declines)
+      RD->>S: Fan-out to driver/admin
+      S-->>DR: Driver moved offline due to repeated declines
+      S-->>A: Driver compliance review alert
+    end
+  end
+
+  DR->>C: Arrived at Pickup Location
+  C->>RD: Publish DriverArrived event
+  RD->>S: Fan-out to rider/admin
+  S-->>R: Driver Arrived notification + 5 min countdown
+  S-->>A: Driver arrived event
+
+  alt Rider shows up
+    DR-->>C: Rider confirmed / Scan/OTP for Start Trip
+    note over C: Trip continues normally
+  else Rider No-Show (>5 min wait threshold)
+    DR-->>C: Mark Rider No-Show with timestamp
+    C->>RD: Publish RiderNoShow event
+    RD->>S: Fan-out to rider/admin
+    S-->>R: No-show flag; driver can cancel
+    S-->>A: No-show event for review
+    C->>C: Calculate no-show fee based on policy
+  end
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Decline tracking:</b> Each driver decline is logged and counted. After 3 declines, extended ETA warning is shown. After 5 declines, driver moved offline to prevent ride rejection abuse.</div>
+        <div class="note"><b>Reassignment logic:</b> When a driver declines, Dispatch Engine immediately selects next eligible driver from pool based on distance, rating, and availability.</div>
+        <div class="note"><b>Rider visibility:</b> Riders see transparency: if multiple drivers decline, they receive an alert that finding drivers is taking longer with an updated ETA.</div>
+        <div class="note"><b>No-Show timeout:</b> Configurable wait threshold (default 5 min). Once exceeded, driver can mark Rider No-Show. No-show fee is calculated and captured for policy enforcement.</div>
+        <div class="note"><b>Event publishing:</b> Decline count thresholds, driver offline, and no-show events all published to Redis for real-time admin monitoring.</div>
+      </div>
+    </section>
+
+    <section id="d9" class="section">
+      <div class="section-head">
+        <h2>9. Administrative Intervention & Force End Review</h2>
+      </div>
+      <p>Admin review workflow for Force End trips, SOS events, and support escalations. Admins can review evidence, approve/reject decisions, and take corrective actions.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant RA as Rider App
+  participant DR as Driver App
+  participant C as Core Service
+  participant RD as Redis (pub/sub)
+  participant S as SignalR Service
+  participant A as Admin Portal
+  participant DB as Postgres / Audit
+
+  alt Force End Event
+    DR->>C: Trip Force Ended (reason + proof)
+    C->>RD: Publish ForceEndEvent (trip details, reason, location, proof)
+  else SOS Escalation
+    RA->>C: SOS triggered -> Admin escalates
+    C->>RD: Publish SOSEscalation
+  end
+
+  RD->>S: Fan-out to admin subscribers
+  S-->>A: Alert: Force End / SOS awaiting review
+  A-->>A: Display: Trip timeline, location map, driver/rider notes, attached proof (photo/video)
+  
+  A->>C: Admin reviews and takes action
+  alt Approve (Valid Exception)
+    A->>C: Approve Force End action
+    C->>DB: Log admin decision + timestamp
+    C->>RD: Publish ForceEndApproved event
+    RD->>S: Publish to rider and driver
+    S-->>RA: Trip accepted as completed (no further action needed)
+    S-->>DR: Force-end approved, no further action needed
+  else Reject (Policy Violation Suspected)
+    A->>C: Reject and flag driver for review
+    C->>DB: Log rejection reason, escalate to compliance team
+    C->>RD: Publish ForceEndRejected + DriverFlagged event
+    RD->>S: Notify driver that trip is flagged
+    S-->>DR: Driver receives notification of policy review
+  else Request More Info
+    A->>C: Request additional details from driver
+    C->>S: Send chat/form request to driver
+    S-->>DR: Admin requesting clarification on Force End
+    DR->>C: Driver provides follow-up details
+    C->>A: Updated details available in admin portal
+  end
+
+  A->>C: Admin can manually cancel/reassign for support cases
+  C->>RD: Publish AdminIntervention event
+  RD->>S: Update rider and driver of admin action
+  S-->>RA: Trip cancel/reassigned by admin
+  S-->>DR: Trip cancelled by admin
+
+  C->>DB: Audit log: All admin actions, reason, timestamp, admin user ID
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Real-time queue:</b> Force End, SOS escalations, and disputed trips appear in Admin Portal in real-time via Redis pub/sub. No manual refresh needed.</div>
+        <div class="note"><b>Evidence handling:</b> Admin can view attached proof (photos, videos, reason notes, trip location). Proof is stored securely and linked to trip record.</div>
+        <div class="note"><b>Three outcomes:</b> Approve (trip completed legitimately), Reject (flag driver for policy review), Request More Info (gather additional evidence before deciding).</div>
+        <div class="note"><b>Compliance:</b> All admin decisions are audit-logged with timestamp, admin user ID, and reason. Rejected trips escalate to compliance team for potential driver action.</div>
+        <div class="note"><b>Proactive support:</b> Admin can manually cancel or reassign trips for support cases without waiting for driver exception. Action is immediately broadcast to both rider and driver.</div>
+      </div>
+    </section>
+
+    <section id="d10" class="section">
+      <div class="section-head">
+        <h2>10. Driver Registration End-to-End Flow</h2>
+        <span class="priority">HEART FUNCTION</span>
+      </div>
+      <p>Driver onboarding is a core platform function: secure registration, KYC verification, admin approval, and activation gating before ride operations.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant DR as Driver App
+  participant C as Core Service
+  participant S as Cloudflare Storage
+  participant A as Admin Portal
+  participant DB as PostgreSQL
+  participant N as Notification Worker
+
+  DR->>C: Submit mobile number for OTP
+  C->>DR: OTP challenge
+  DR->>C: Verify OTP
+  alt OTP valid
+    C->>DB: Create/continue onboarding draft profile
+    DR->>C: Submit profile details and emergency contact
+    DR->>C: Upload KYC docs metadata
+    C->>S: Store KYC files securely
+    C->>DB: Save KYC references + status UnderReview
+    C->>A: Publish onboarding review task
+    A->>C: Approve or Reject with reason
+    alt Approved
+      C->>DB: Set driver status Active
+      C->>N: Send approval push/SMS
+      N-->>DR: Account approved, can go Online
+    else Rejected
+      C->>DB: Set status Rejected with reason
+      C->>N: Send rejection notice
+      N-->>DR: Rejected, resubmit required fields
+    end
+  else OTP invalid
+    C-->>DR: OTP failed with retry/cooldown policy
+  end
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>Activation gate:</b> Driver cannot switch to Online until admin approval sets account status to Active.</div>
+        <div class="note"><b>Auditability:</b> Approval and rejection actions include actor, timestamp, and reason for compliance review.</div>
+        <div class="note"><b>Future AI-ready:</b> AI validation can be inserted before admin approval as advisory scoring for document quality and fraud risk.</div>
+      </div>
+    </section>
+
+    <section id="d11" class="section">
+      <div class="section-head">
+        <h2>11. No-Loss Real-Time Reliability Controls</h2>
+        <span class="priority">RESILIENCE</span>
+      </div>
+      <p>Real-time ride operations must survive disconnects and retries without losing critical state. The platform uses durable writes, idempotency, and replay-safe event delivery.</p>
+      <div class="diagram-box">
+        <div class="mermaid">
+flowchart LR
+  DR[Driver/Rider/Admin Clients]
+  SR[SignalR Service]
+  CS[Core Service]
+  PG[(PostgreSQL)]
+  RD[(Redis PubSub)]
+  MON[Monitoring and Alerts]
+
+  DR -->|state change request with idempotency key| CS
+  CS -->|persist critical transition first| PG
+  CS -->|publish event with event_id and sequence_no| RD
+  RD -->|fan-out| SR
+  SR -->|real-time delivery| DR
+  DR -->|ack last sequence| SR
+  SR -->|on reconnect request snapshot| CS
+  CS -->|latest authoritative snapshot| DR
+
+  CS --> MON
+  SR --> MON
+  RD --> MON
+        </div>
+      </div>
+      <div class="notes">
+        <div class="note"><b>No-loss policy:</b> Critical ride transitions are stored in PostgreSQL before real-time publish acknowledgement.</div>
+        <div class="note"><b>Idempotency:</b> Start Trip, End Trip, Cancel, Force End, and No-Show APIs reject duplicate retries using idempotency keys.</div>
+        <div class="note"><b>Replay safety:</b> Event payload includes trip_id, event_id, sequence_no, and timestamp to support ordering checks and dedupe.</div>
+        <div class="note"><b>Reconnect handling:</b> On WebSocket break, clients reconnect and request latest snapshot so operations continue safely.</div>
+        <div class="note"><b>Operations guardrail:</b> Alert on publish failures, consumer lag, reconnect spikes, and dead-letter queue growth.</div>
+      </div>
+    </section>
+
+    <section id="d12" class="section">
+      <div class="section-head">
+        <h2>12. Failure Scenarios Matrix</h2>
+      </div>
+      <p>Operational reliability contract for core ride continuity and onboarding safety. Each scenario must have test evidence before production release.</p>
+      <div class="diagram-box">
+        <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+          <thead>
+            <tr style="background:#edf4ff; color:#173a5b;">
+              <th style="border:1px solid #d6ddd5; padding:10px; text-align:left;">Scenario</th>
+              <th style="border:1px solid #d6ddd5; padding:10px; text-align:left;">Required Handling</th>
+              <th style="border:1px solid #d6ddd5; padding:10px; text-align:left;">Target SLO</th>
+              <th style="border:1px solid #d6ddd5; padding:10px; text-align:left;">Loss Tolerance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Mobile network drop during active trip</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Auto-reconnect + snapshot sync + sequence resume</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">&lt;= 10s normal recovery</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">None for critical trip state</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Redis lag or short outage</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Durable event record + publish retries + lag alerts</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">&lt;= 60s lag normalization</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">None for critical trip state</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Duplicate retries from app</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Idempotency key + dedupe by trip/action</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">&lt;= 2s duplicate rejection</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">None</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #d6ddd5; padding:10px;">SignalR disconnect/restart</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Reconnect, resubscribe, replay snapshot</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">&lt;= 15s stream recovery</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">None for critical trip state</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Notification provider outage</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Retry with backoff + dead-letter + operator alert</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">First retry &lt;= 30s</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Only non-critical notifications</td>
+            </tr>
+            <tr>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Driver onboarding duplicate submit</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">Idempotent onboarding draft + document dedupe + audit trail</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">No duplicate driver profile</td>
+              <td style="border:1px solid #d6ddd5; padding:10px;">None</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <p class="foot">
+      Source alignment: 01_BRD_Rekla_Ride_App.md, 02_BRD_Rider_App.md, 03_BRD_Driver_App.md,
+      04_BRD_Admin_Portal.md, and 09_TSD_Parent_Platform_High_Level.md.
+    </p>
+  </main>
+</body>
+</html>
