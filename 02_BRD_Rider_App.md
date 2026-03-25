@@ -1,3 +1,4 @@
+> **Note:** For all rating and feedback logic, the [Rating & Feedback System BRD](07_BRD_Rating_Feedback_System.md) is the authoritative source. If any requirement in this document conflicts with that BRD, the latter shall take precedence.
 # Business Requirements Document (BRD) — Rider App
 ## Rekla Ride App
 
@@ -174,7 +175,7 @@ Ride Options Screen → Tap "Apply Promo Code" → Enter / Select Code → Valid
 | FR-R37  | If the promo code is invalid, expired, already used, or not applicable to the selected ride type, a clear and descriptive error message shall be shown. | Must |
 | FR-R38  | The user shall be able to remove an applied promo code; the fare shall revert to the original amount. | Must |
 | FR-R39  | The system shall surface promo codes the user is eligible for when the promo field is tapped.  | Should   |
-| FR-R40  | Only one promo code shall be applicable per trip at a time.                                    | Must     |
+| FR-R40  | Only one promo code or referral coupon shall be applicable per trip at a time. See [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md) for full rules. | Must     |
 
 ---
 
@@ -282,9 +283,10 @@ Home Screen → Menu → Refer & Earn → View Code → Copy / Share → Friend 
 | FR-R77  | The Referral screen shall display the user's unique referral code prominently with a one-tap **"Copy Code"** button. | Must |
 | FR-R78  | The user shall be able to share the referral code via the device native share sheet (WhatsApp, SMS, Email, etc.). | Must |
 | FR-R79  | During new user registration, the app shall display an optional **"Enter Referral Code"** field. | Must  |
-| FR-R80  | When the referred user completes their first trip after registering with a valid referral code, the referrer shall receive **₹25** referral reward (default), configurable by admin/company policy. | Must |
+| FR-R80  | When the referred user completes their first trip after registering with a valid referral code, the referrer shall receive a referral reward as a coupon, as per [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md). | Must |
 | FR-R81  | The Referral screen shall display a summary dashboard: total invites sent, successful conversions (first trip completed), and total rewards earned. | Should |
-| FR-R82  | Referral rewards shall be credited as configured by company policy (e.g., wallet credit, promo value, or points), with transparent reward ledger in app. | Must |
+| FR-R82  | Referral rewards for riders shall be issued only as coupons/discount codes, not as wallet credits. See [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md) for all rules. | Must |
+> **Note:** For all referral, coupon, and reward logic for riders, the [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md) is the authoritative source. If any requirement in this document conflicts with that BRD, the latter shall take precedence.
 
 ---
 

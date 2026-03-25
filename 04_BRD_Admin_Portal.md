@@ -253,7 +253,7 @@ Drivers Menu → Driver List → Search / Filter → View Driver Profile → Tak
 | FR-A51A | Authorized roles shall be able to send important communications to a single driver or multiple drivers (bulk) via in-app notification, WhatsApp, and SMS for urgent operational instructions or updates. | Must |
 | FR-A51B | The driver profile shall display package subscription details including active package name, validity period, usage balance (if applicable), and package expiry date. | Must |
 | FR-A51C | The system shall support package-expiry monitoring and allow authorized roles to send expiry reminders to affected drivers individually or in bulk. | Should |
-| FR-A51D | Driver package status shall control ride-request eligibility: drivers with active eligible package can receive ride requests; expired/inactive package drivers shall be restricted based on configured business rules. | Must |
+| FR-A51D | Driver package status shall control ride-request eligibility: drivers with active eligible package can receive ride requests; if a package is expired or inactive, the system shall fallback to Commission Model and NOT block the driver from receiving ride requests, as per [Driver Pricing Model BRD](05_BRD_Driver_Pricing_Model.md). | Must |
 
 ---
 
@@ -273,6 +273,7 @@ Riders Menu → Filter Inactive Riders → Select Audience → Compose/Select Te
 | FR-A53  | The admin shall be able to filter the rider list by: status (Active/Suspended), registration date range, and activity level (active in last 7/30 days vs. inactive). | Should |
 | FR-A54  | The admin shall be able to search for a specific rider by name or mobile number.                                 | Must     |
 | FR-A55  | The admin shall be able to open a rider's full profile page showing: personal details, complete ride history, total spend, promo codes used, referral activity, and ratings given/received. | Must |
+> **Note:** For all rating and feedback logic, the [Rating & Feedback System BRD](07_BRD_Rating_Feedback_System.md) is the authoritative source. If any requirement in this document conflicts with that BRD, the latter shall take precedence.
 | FR-A56  | The admin shall be able to **Suspend** a rider account with a mandatory reason; the suspended rider cannot book rides and sees a suspension notice. | Must |
 | FR-A57  | The admin shall be able to **Reactivate** a suspended rider account.                                             | Must     |
 | FR-A58  | The admin shall be able to view all promo codes and referral credits applied to a rider's account.               | Should   |
@@ -445,7 +446,7 @@ Fare & Pricing Menu → Select Ride Type → Edit Parameters → Save & Publish 
 | FR-A97  | The admin shall be able to activate or deactivate surge pricing for a defined time window with a configurable surge multiplier. | Must |
 | FR-A98  | All fare configuration changes shall take effect for new bookings immediately upon saving; in-progress trips shall not be affected. | Must |
 | FR-A99  | The admin shall be able to view a history log of all fare configuration changes: field changed, old value, new value, acting admin, and timestamp. | Should |
-| FR-A100 | The admin shall be able to configure fallback behavior when a driver has no active package (e.g., block rides, grace-period rides, or restricted-category rides) as per business policy. | Must |
+| FR-A100 | The admin shall be able to configure fallback behavior when a driver has no active package. **Blocking drivers from receiving rides due to lack of package is NOT permitted; the system must fallback to Commission Model as per [Driver Pricing Model BRD](05_BRD_Driver_Pricing_Model.md).** | Must |
 
 ---
 
@@ -463,7 +464,8 @@ Promo Codes Menu → Create Promo → Set Parameters → Activate → Monitor Us
 | FR-A103 | The admin shall be able to view all promo codes with: status (Active / Inactive / Expired), total uses, and remaining uses. | Must |
 | FR-A104 | The admin shall be able to activate or deactivate any promo code at any time.                                    | Must     |
 | FR-A105 | The admin shall be able to view per-code usage analytics: total redemptions, total discount given, rider list. | Should |
-| FR-A106 | The admin shall be able to manage referral reward configurations: reward value per referee and referrer, and eligibility rules. | Must |
+| FR-A106 | The admin shall be able to manage referral reward configurations: reward value per referee and referrer, eligibility rules, and reward type (coupon for riders, wallet credit for drivers) as per [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md). | Must |
+> **Note:** For all referral, coupon, and reward logic, the [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md) is the authoritative source. If any requirement in this document conflicts with that BRD, the latter shall take precedence.
 | FR-A107 | The admin shall be able to designate a promo code as a **Default Free Promo** for new drivers (auto-applied to their first rides). | Must |
 
 ---
@@ -663,6 +665,7 @@ Support Menu → View Open Tickets → Assign to Self → Investigate → Add No
 ---
 
 ### 3.15 Driver Package Subscription & Sales Operations
+> **Note:** For all driver monetization, commission, package, and fallback logic, the [Driver Pricing Model BRD](05_BRD_Driver_Pricing_Model.md) is the authoritative source. If any requirement in this document conflicts with the Driver Pricing Model BRD, the latter shall take precedence.
 
 **Concept:** This section governs platform monetization via **driver package purchases**. It is separate from rider fare collection. Riders pay drivers directly for rides, while drivers pay the platform for package access.
 

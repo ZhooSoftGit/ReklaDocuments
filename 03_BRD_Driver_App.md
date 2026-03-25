@@ -1,3 +1,4 @@
+> **Note:** For all driver referral reward, wallet credit, and coupon logic, the [Referral Reward & Coupon Management BRD](06_BRD_Referral_Reward_Coupon_Management.md) is the authoritative source. If any requirement in this document conflicts with that BRD, the latter shall take precedence.
 # Business Requirements Document (BRD) — Driver App
 ## Rekla Ride App
 
@@ -165,7 +166,7 @@ Dashboard → Toggle Online → Ready to Receive Requests → Toggle Offline →
 | FR-D34  | When Offline, the driver shall not receive ride requests and their active availability shall not be broadcast to matching services. | Must |
 | FR-D35  | The driver shall be able to go Offline at any time except during an active trip; during an active trip, the Offline toggle shall be disabled. | Must |
 | FR-D36  | If an active trip is in progress and the app is force-closed or loses connectivity, the driver's Online status shall be preserved until the trip is completed or manually resolved. | Must |
-| FR-D37  | The system shall prevent a driver from going Online if mandatory documents are expired, the account is suspended, or no valid commission package is active when package-based operation is required by business policy. | Must |
+| FR-D37  | The system shall prevent a driver from going Online if mandatory documents are expired or the account is suspended. **Drivers shall NOT be blocked from going Online due to lack of an active package; if no valid package is present, the system shall fallback to Commission Model as per [Driver Pricing Model BRD](05_BRD_Driver_Pricing_Model.md).** | Must |
 
 ---
 
@@ -343,7 +344,8 @@ Dashboard → Tap "Earnings" → View Earnings from Login Time / Last 10 Days / 
 | FR-D76  | The driver shall be able to view current package status, purchase history, and upcoming expiry reminders. | Must |
 | FR-D76A | The app shall notify drivers before package expiry at configurable intervals (for example 7 days, 3 days, and 1 day prior) and show post-expiry impact on commission. | Must |
 | FR-D76B | Package auto-renewal setting shall be explicit and opt-in only; if enabled, the app shall request consent for auto-debit according to payment rules. | Should |
-| FR-D76C | If package expires during active availability, the system shall apply configured fallback commission rules for new rides and clearly notify the driver before accepting next ride. | Must |
+| FR-D76C | If package expires during active availability, the system shall automatically fallback to Commission Model for new rides and clearly notify the driver before accepting the next ride, as per [Driver Pricing Model BRD](05_BRD_Driver_Pricing_Model.md). | Must |
+> **Note:** For all driver monetization, commission, package, and fallback logic, the [Driver Pricing Model BRD](05_BRD_Driver_Pricing_Model.md) is the authoritative source. If any requirement in this document conflicts with the Driver Pricing Model BRD, the latter shall take precedence.
 
 ---
 
@@ -376,6 +378,7 @@ Dashboard → Profile / Support / Settings → View or Update Driver Details →
 ---
 
 ### 3.11 Ratings & Reviews
+> **Note:** For all rating and feedback logic, the [Rating & Feedback System BRD](07_BRD_Rating_Feedback_System.md) is the authoritative source. If any requirement in this document conflicts with that BRD, the latter shall take precedence.
 
 | ID      | Requirement                                                                                    | Priority |
 |---------|------------------------------------------------------------------------------------------------|----------|
