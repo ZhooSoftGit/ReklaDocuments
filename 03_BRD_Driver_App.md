@@ -186,6 +186,14 @@ Driver Dashboard → Select Enabled Ride Categories → Toggle Acting Driver Mod
 | FR-D42  | The driver shall be able to enable an optional **Acting Driver Mode** to indicate availability to drive another owner's or partner's vehicle, subject to admin approval and policy rules. | Should |
 | FR-D43  | When Acting Driver Mode is enabled, the driver's profile shall be discoverable for approved alternate-vehicle driving opportunities and the mode shall be visibly indicated on the dashboard. | Should |
 | FR-D44  | Acting Driver Mode shall not interfere with the driver's current active trip flow; it can only be toggled when the driver is not in an active ride. | Must |
+| FR-D44A | The platform shall maintain an explicit **Driver-Vehicle Link** record for operational mapping, including at minimum: Driver ID, Vehicle ID, link type (Primary / Acting / Vendor-Assigned), status (Pending / Active / Inactive), and effective dates. | Must |
+| FR-D44B | A driver shall have only one **active operational vehicle link** at a time for ride dispatch eligibility. | Must |
+| FR-D44C | A vehicle may be approved for multiple drivers over time, but only one active driver-vehicle operational mapping shall be allowed at a time unless future policy explicitly enables multi-driver concurrency. | Must |
+| FR-D44D | Driver switch or vehicle switch shall be allowed only when the current driver has no accepted or active trip. | Must |
+| FR-D44E | Any driver-vehicle remapping (driver switch, vehicle switch, vendor assignment) shall require authorized admin approval with reason and effective-from timestamp. | Must |
+| FR-D44F | Once a ride is accepted, the assigned Driver ID and Vehicle ID for that trip shall be snapshotted and remain immutable for that trip unless a controlled reassignment flow is executed. | Must |
+| FR-D44G | The driver app shall display the currently linked active vehicle, link type, and pending switch request status in Profile/Dashboard context. | Should |
+| FR-D44H | The business model shall support future vendor/fleet operations by allowing approved vendor-owned vehicles to be linked to eligible drivers through policy-governed mapping rules. | Should |
 
 ---
 
@@ -366,6 +374,9 @@ Dashboard → Profile / Support / Settings → View or Update Driver Details →
 | FR-D82  | The app shall display a warning when any document is due to expire within 30 days and prompt the driver to renew it. | Must |
 | FR-D83  | The mobile number shall be the primary identifier and shall not be editable without OTP re-verification. | Must |
 | FR-D84  | The driver shall be able to update vehicle details, enabled ride categories, and primary driving location, subject to admin re-verification where applicable. | Should |
+| FR-D84A | The driver shall be able to raise a **vehicle switch request** from Profile, including reason and requested effective date/time, subject to admin approval policy. | Should |
+| FR-D84B | Where vendor or owner-managed operations are enabled, the platform shall support **driver reassignment request** to another approved vehicle with controlled approval workflow. | Should |
+| FR-D84C | The driver shall be able to view linkage history for previously assigned vehicles and mapping statuses for transparency and support resolution. | Should |
 | FR-D85  | The driver shall be able to access a **Support / Help** section to create a support ticket, raise an issue, or raise a concern related to trips, payments, account approval, package purchase, or technical problems. | Must |
 | FR-D86  | The support ticket flow shall allow the driver to choose a category, enter a description, attach screenshots or documents, and submit the issue. | Must |
 | FR-D87  | The driver shall be able to view the status of submitted issues: Open, In Progress, Resolved, or Closed. | Must |
@@ -500,6 +511,7 @@ First App Launch / Feature Access → Request Permission → User Grants or Deni
 | NFR-D14  | Usability     | A driver shall be able to complete package purchase confirmation in a maximum of 3 primary steps: select package, review promo/price, confirm purchase. |
 | NFR-D15  | Reliability   | Scheduled package/outstation notifications (4-hour or 8-hour) shall be delivered with retry logic and delivery-status logging for audit and support investigation. |
 | NFR-D16  | Security      | Package purchase, promo application, and fallback commission events shall be traceable with immutable audit logs for dispute handling. |
+| NFR-D17  | Data Integrity | Driver-vehicle mapping and trip assignment snapshots shall remain consistent across app, dispatch, and admin views to prevent mismatch disputes during reassignment or switching scenarios. |
 
 ---
 

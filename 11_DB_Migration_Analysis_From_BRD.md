@@ -9,15 +9,27 @@ This document maps new BRD/TSD requirements to backend database changes for:
 
 This is analysis only. No code/entity/migration generation is done in this phase.
 
+V2 policy for this document:
+- This is a new, not-live schema baseline.
+- No backward compatibility constraints apply.
+- Legacy fields/tables can be removed where replaced by cleaner V2 design.
+
 ## 2. Inputs reviewed
 
 - 01_BRD_Rekla_Ride_App.md
 - 02_BRD_Rider_App.md
 - 03_BRD_Driver_App.md
 - 04_BRD_Admin_Portal.md
-- 09_TSD_Parent_Platform_High_Level.md
+- 05_BRD_Driver_Pricing_Model.md
+- 06_BRD_Referral_Reward_Coupon_Management.md
+- 07_BRD_Rating_Feedback_System.md
+- 08_BRD_Unified_Support_Ticketing_System.md
 - Existing EF entities + ApplicationDbContext in ZCarsAPI
 - Existing HTTP endpoint inventory in Controllers and DriverAppController
+
+Input filtering rule:
+- Source-of-truth business inputs in this analysis are restricted to files whose names contain `BRD`.
+- TSD and checklist documents may provide context but do not override BRD requirements.
 
 ## 3. Current backend data model snapshot (high-level)
 
@@ -37,9 +49,10 @@ Configuration policy update: Configuration is runtime value-only and independent
 ## 4.1 Existing tables: required column updates
 
 1. users
-- Add referral_code (if referral plugin enabled)
-- Add last_login_device_id, last_login_ip (audit/security)
-- Keep this table minimal because it is a hot shared identity table; role-specific restriction data must not be added here.
+- No additional business/audit columns on `users`; keep this table minimal as the hot shared identity table.
+- Keep role-specific restriction data out of `users` (store in role-owned tables such as `driver_details`).
+- Move login telemetry and referral profile into dedicated tables (`user_login_history`, `user_referral_profiles`).
+- Drop legacy `users.role_id` (single-role model); use `user_roles` only.
 
 2. user_details
 - Add default_saved_address_id
@@ -183,8 +196,17 @@ Configuration policy update: Configuration is runtime value-only and independent
 5. saved_addresses
 - address_id, user_id, label, full_address, lat, lng, landmark, last_used_at, is_default
 
+5A. user_login_history
+- id, user_id, ip_address, device_id, logged_in_at
+
+5B. user_referral_profiles
+- user_id, referral_code, referral_status, generated_at, disabled_at
+
 6. ride_bookings
-- booking_id, ride_request_id, assigned_driver_id, assignment_time, estimated_fare, surge_details_json, booking_status, cancellation_policy_snapshot_json
+- booking_id, ride_request_id, assigned_driver_id, assignment_time, estimated_fare, booking_status, created_at
+
+6A. ride_booking_reliability
+- booking_id, pre_assignment_status, reconfirmation_status, rider_reconfirmed_at, driver_reconfirmed_at, primary_driver_id, backup_driver_id, no_show_actor_type, no_show_recorded_at, sla_due_at, sla_breach_at, sla_breach_reason, reliability_state
 
 7. referral_events
 - referral_event_id, referrer_user_id, referred_user_id, referral_code, qualification_status, reward_type, reward_value, credited_at
@@ -251,6 +273,123 @@ Configuration policy update: Configuration is runtime value-only and independent
 
 28. configuration_change_history
 - change_id, deployment_id, module, field, old_value, new_value, changed_by, changed_at
+
+## 4.3 Delta updates from newly finalized BRDs (05-08)
+
+The following additions are required so migration scope reflects latest finalized BRD updates.
+
+### A. Driver-Vehicle link governance (03 + 05 BRD alignment)
+
+1. driver_vehicle_link (extend)
+- Add link_type (primary/acting/vendor_assigned)
+- Add link_status (pending/active/inactive/rejected)
+- Add effective_from, effective_to
+- Add approved_by, approved_at
+- Add change_reason
+
+2. driver_vehicle_link_history (extend)
+- Add event_type (link_created/switch_requested/switch_approved/switch_rejected/unlinked)
+- Add actor_user_id, actor_role
+- Add old_vehicle_id, new_vehicle_id
+- Add old_link_status, new_link_status
+- Add event_reason, event_at
+
+3. ride_trips (extend)
+- Add assigned_driver_snapshot_id (immutable snapshot field)
+- Add assigned_vehicle_snapshot_id (immutable snapshot field)
+
+### B. Scheduled ride reliability (Package/Outstation)
+
+4. ride_bookings (extend)
+- Keep `ride_bookings` lightweight (assignment and status only).
+- Move reconfirmation/SLA/no-show reliability fields to `ride_booking_reliability`.
+
+4A. new table: ride_booking_reliability
+- booking_id, pre_assignment_status, reconfirmation_status, rider_reconfirmed_at, driver_reconfirmed_at, primary_driver_id, backup_driver_id, no_show_actor_type, no_show_recorded_at, sla_due_at, sla_breach_at, sla_breach_reason, reliability_state
+
+5. ride_requests (extend)
+- Add rematch_attempt_count
+- Add dispatch_timeout_at
+- Add no_driver_found_at
+- Add fallback_action_taken
+
+### C. Serviceability and geo-governance
+
+6. ride_requests (extend)
+- Add pickup_zone_code, drop_zone_code
+- Add serviceability_status (serviceable/out_of_service/restricted)
+- Add serviceability_reason_code
+- Add location_tamper_flag
+
+7. new table: service_zones
+- zone_id, zone_code, zone_name, city_code, status, effective_from, effective_to
+
+8. new table: geo_fences
+- geofence_id, zone_id, geofence_type (serviceable/restricted/no_pickup/no_drop), polygon_geojson, is_active
+
+9. new table: serviceability_decisions
+- decision_id, ride_request_id, pickup_result, drop_result, reason_code, evaluated_at, evaluated_by_source
+
+10. new table: location_tamper_events
+- event_id, user_id, role, event_type, confidence_score, observed_at, action_taken
+
+### D. Driver settlement and payout operations (driver-only monetization)
+
+11. new table: driver_wallet_ledger
+- ledger_id, driver_id, entry_type (commission/package/adjustment/reversal/payout), amount, balance_after, reference_type, reference_id, created_at
+
+12. new table: driver_settlement_cycles
+- cycle_id, cycle_start_at, cycle_end_at, status, total_drivers, total_payable_amount, generated_at, closed_at
+
+13. new table: driver_settlement_items
+- item_id, cycle_id, driver_id, gross_earning, commission_due, package_due, adjustments, net_payable, settlement_status
+
+14. new table: driver_payouts
+- payout_id, driver_id, settlement_item_id, payout_status, payout_ref, initiated_at, completed_at, failed_reason
+
+15. new table: driver_payout_failures
+- failure_id, payout_id, failure_code, failure_message, retry_count, next_retry_at, resolved_at
+
+### E. Referral/Reward and Rating lifecycle completeness
+
+16. referral_events (extend)
+- Add campaign_id
+- Add qualified_at
+- Add rejected_reason_code
+- Add reversed_at, reversal_reason
+
+17. coupons (extend)
+- Add coupon_status (issued/active/reserved/used/expired/cancelled)
+- Add campaign_id
+- Add reserved_at
+- Add used_at
+
+18. feedback / ratings (extend)
+- Add moderation_status
+- Add moderation_reason_code
+- Add disputed_flag
+- Add disputed_at, resolved_at
+
+19. new table: rating_disputes
+- dispute_id, ride_trip_id, raised_by_user_id, against_user_id, reason_code, status, sla_due_at, resolved_by, resolved_at
+
+### F. Unified support ticket lifecycle and SLA controls
+
+20. tickets (extend)
+- Add waiting_on_type (rider/driver/internal_team/system)
+- Add reopened_count
+- Add parent_ticket_id
+- Add duplicate_of_ticket_id
+- Add breach_risk_flag
+
+21. new table: ticket_status_history
+- history_id, ticket_id, from_status, to_status, changed_by, changed_at, reason_code
+
+22. new table: ticket_assignments
+- assignment_id, ticket_id, assigned_team, assigned_user_id, assigned_at, unassigned_at, assignment_reason
+
+23. new table: ticket_sla_events
+- sla_event_id, ticket_id, event_type (warning/breach/pause/resume), event_at, metadata_json
 
 ## 5. API impact list (as per BRD)
 
@@ -375,7 +514,7 @@ A single identity (mobile number / user account) in the platform can operate und
 Phase M1 - Foundation and deployment configuration
 - deployment_profiles, deployment_feature_flags, deployment_business_rules, deployment_branding
 - configuration_keys_catalog, enum_value_catalog, deployment_configuration_values
-- users/coupons/ride_pricing deployment columns
+- V2 cleanup drops: remove legacy identity/booking compatibility columns and deprecated artifacts
 
 Phase M2 - Ride lifecycle integrity
 - ride_requests/ride_trips/ride_history/ride_payments column additions
@@ -400,8 +539,8 @@ Phase M5 - Product growth modules
 
 ## 7. Risks and constraints to handle in implementation phase
 
-1. Backward compatibility
-- Existing mobile apps depend on current ride and support payload contracts.
+1. V2-only contract rollout
+- No backward compatibility required; all mobile/admin clients must use V2 payload contracts.
 
 2. Enum safety
 - Central enums in shared abstractions must be versioned carefully to avoid breaking old app binaries.
@@ -424,3 +563,9 @@ Phase M5 - Product growth modules
 - Migration sequencing plan (M1-M5)
 
 No code changes performed.
+
+## 9. V2 explicit cleanup list (drop/remove)
+
+1. Drop column `users.role_id` (single-role legacy).
+2. Do not add compatibility placeholders in core tables for old app payloads.
+3. Keep reliability/SLA details out of `ride_bookings` and in `ride_booking_reliability`.

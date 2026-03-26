@@ -1,0 +1,1462 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZhooCars Table Master List</title>
+  <style>
+    :root { --bg:#f6f8fb; --card:#fff; --text:#16202a; --muted:#5a6b7b; --line:#dce3ea; --head:#0f2d46; --headText:#fff; --ok:#e8f7ee; --okText:#156a3b; --new:#e9f2ff; --newText:#144b9a; --del:#ffecef; --delText:#9a1a32; --chg:#fff4e5; --chgText:#8a4a00; }
+    body { margin:0; font-family:"Segoe UI","Tahoma",sans-serif; background:linear-gradient(180deg,#eef3f8 0%,#f8fafc 100%); color:var(--text);} 
+    .wrap { max-width:1200px; margin:32px auto; padding:0 16px 40px; }
+    h1 { margin:0 0 8px; font-size:30px; color:#0c2235; }
+    .subtitle { margin:0 0 24px; color:var(--muted); font-size:15px; }
+    .legend { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+    .chip { border:1px solid var(--line); border-radius:999px; padding:6px 12px; font-size:13px; font-weight:600; background:#fff; }
+    .chip.exist { background:var(--ok); color:var(--okText); border-color:#bfe6cf; }
+    .chip.new { background:var(--new); color:var(--newText); border-color:#bfd7ff; }
+    .chip.delete { background:var(--del); color:var(--delText); border-color:#ffccda; }
+    .chip.change { background:var(--chg); color:var(--chgText); border-color:#f7d4a6; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 8px 24px rgba(14,31,53,0.05); margin-bottom:20px; }
+    .card-header { background:var(--head); color:var(--headText); padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .table-name { font-size:18px; font-weight:700; letter-spacing:0.2px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th, td { border-bottom:1px solid var(--line); padding:11px 12px; text-align:left; vertical-align:top; }
+    th { background:#f2f6fa; color:#23384a; font-size:13px; text-transform:uppercase; letter-spacing:0.4px; }
+    tr:last-child td { border-bottom:none; }
+    .status { display:inline-block; padding:4px 9px; border-radius:999px; font-size:12px; font-weight:700; line-height:1; white-space:nowrap; }
+    .status.exist { background:var(--ok); color:var(--okText); }
+    .status.new { background:var(--new); color:var(--newText); }
+    .status.delete { background:var(--del); color:var(--delText); }
+    .status.change { background:var(--chg); color:var(--chgText); }
+    .mono { font-family:"Consolas","Courier New",monospace; font-size:13px; color:#2a3c4d; }
+    @media (max-width:860px) { table { font-size:13px; } th, td { padding:9px 8px; } .table-name { font-size:16px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Database Table Catalog</h1>
+    <p class="subtitle">Auto-generated from 12_FINAL_TABLE_MASTER_LIST.md</p>
+    <div class="legend"><span class="chip exist">Existing</span><span class="chip new">New</span><span class="chip change">Changed</span><span class="chip delete">Delete</span></div>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">documents</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">document_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>INT PK</td></tr>
+          <tr><td class="mono">vehicle_id (FK:vehicle_details)</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>INT NULLABLE FK -&gt; vehicle_details</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>INT FK -&gt; users</td></tr>
+          <tr><td class="mono">document_type_id (FK:document_types)</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>INT/ENUM FK -&gt; document_types</td></tr>
+          <tr><td class="mono">document_no</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>document number</td></tr>
+          <tr><td class="mono">document_url</td><td><span class="status exist">Existing</span></td><td>VARCHAR(255)</td><td>stored document URL</td></tr>
+          <tr><td class="mono">approval_status_id</td><td><span class="status exist">Existing</span></td><td>INT/ENUM</td><td>approval status</td></tr>
+          <tr><td class="mono">approval_date</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TIMESTAMP NULLABLE - approval timestamp</td></tr>
+          <tr><td class="mono">approved_by (FK:users)</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>INT NULLABLE FK -&gt; users</td></tr>
+          <tr><td class="mono">review_notes</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TEXT NULLABLE - reviewer comments</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>BOOLEAN DEFAULT true</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TIMESTAMP</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TIMESTAMP NULLABLE</td></tr>
+          <tr><td class="mono">expiry_date</td><td><span class="status new">New</span></td><td>DATE</td><td>document legal expiry</td></tr>
+          <tr><td class="mono">renewal_required_from</td><td><span class="status new">New</span></td><td>DATE</td><td>reminder threshold</td></tr>
+          <tr><td class="mono">rejection_code</td><td><span class="status new">New</span></td><td>VARCHAR(50)</td><td>catalog code for rejection</td></tr>
+          <tr><td class="mono">source_channel</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>app / admin</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">coupons</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>INT PK</td></tr>
+          <tr><td class="mono">code</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>VARCHAR(50) UNIQUE coupon code</td></tr>
+          <tr><td class="mono">description</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TEXT NULLABLE</td></tr>
+          <tr><td class="mono">discount_type</td><td><span class="status exist">Existing</span></td><td>VARCHAR</td><td>fixed / percentage</td></tr>
+          <tr><td class="mono">discount_value</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>discount amount/value</td></tr>
+          <tr><td class="mono">start_date</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>coupon validity start</td></tr>
+          <tr><td class="mono">end_date</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>coupon validity end</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>BOOLEAN DEFAULT true</td></tr>
+          <tr><td class="mono">min_fare</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>DECIMAL NULLABLE - minimum fare condition</td></tr>
+          <tr><td class="mono">max_discount</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>DECIMAL NULLABLE - maximum discount cap</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TIMESTAMP</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>TIMESTAMP NULLABLE</td></tr>
+          <tr><td class="mono">applicable_ride_types</td><td><span class="status new">New</span></td><td>JSONB</td><td>[local, outstation, package]</td></tr>
+          <tr><td class="mono">per_user_limit</td><td><span class="status new">New</span></td><td>INT</td><td>max uses per user</td></tr>
+          <tr><td class="mono">total_redemption_limit</td><td><span class="status new">New</span></td><td>INT</td><td>global cap</td></tr>
+          <tr><td class="mono">current_redemption_count</td><td><span class="status new">New</span></td><td>Not specified</td><td>INT DEFAULT 0</td></tr>
+          <tr><td class="mono">default_for_new_driver</td><td><span class="status new">New</span></td><td>Not specified</td><td>BOOLEAN DEFAULT false</td></tr>
+          <tr><td class="mono">target_audience</td><td><span class="status new">New</span></td><td>VARCHAR(10)</td><td>rider / driver / both</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">deployment_profiles</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">deployment_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">deployment_code</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL, UNQ</td><td>Short code: REKLA, CITYCAB etc</td></tr>
+          <tr><td class="mono">deployment_name</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NOT NULL</td><td>Full company name</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | DEFAULT &#39;active&#39;</td><td>active / suspended / archived</td></tr>
+          <tr><td class="mono">contact_email</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">contact_phone</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">country_code</td><td><span class="status new">New</span></td><td>VARCHAR(5) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">timezone</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">deployment_branding</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">branding_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">deployment_id</td><td><span class="status new">New</span></td><td>INT | UNQ</td><td>One branding record per deployment (Module 2 internal reference)</td></tr>
+          <tr><td class="mono">app_name</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">logo_url</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">splash_url</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">primary_color</td><td><span class="status new">New</span></td><td>VARCHAR(10) | NULLABLE</td><td>Hex color</td></tr>
+          <tr><td class="mono">secondary_color</td><td><span class="status new">New</span></td><td>VARCHAR(10) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">support_phone</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">support_email</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">privacy_policy_url</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">terms_url</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">deployment_feature_flags</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">flag_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">deployment_id</td><td><span class="status new">New</span></td><td>INT | UNQ</td><td>Module 2 internal reference</td></tr>
+          <tr><td class="mono">referral_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">loyalty_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">promo_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">package_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">quote_desk_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">report_builder_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">sos_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">in_app_payment_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_by</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Actor user ID snapshot (no FK to core tables)</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">deployment_business_rules</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">rule_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">deployment_id</td><td><span class="status new">New</span></td><td>INT | IDX</td><td>Module 2 internal reference</td></tr>
+          <tr><td class="mono">rule_key</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL, IDX</td><td>e.g. free_cancel_window_min</td></tr>
+          <tr><td class="mono">rule_value_json</td><td><span class="status new">New</span></td><td>JSONB | NOT NULL</td><td>Typed value</td></tr>
+          <tr><td class="mono">version</td><td><span class="status new">New</span></td><td>INT | DEFAULT 1</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_from</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_to</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_by</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Actor user ID snapshot (no FK to core tables)</td></tr>
+          <tr><td class="mono">UNIQUE</td><td><span class="status new">New</span></td><td>(deployment_id, rule_key) WHERE effective_to IS NULL</td><td>Active rule uniqueness</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">configuration_keys_catalog</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">key_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">module</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL, IDX</td><td>ride / driver / support / pricing</td></tr>
+          <tr><td class="mono">config_key</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">value_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>string / int / bool / decimal / json / enum</td></tr>
+          <tr><td class="mono">default_value</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">description</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_enum_catalog</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>True if key is an enum list</td></tr>
+          <tr><td class="mono">is_editable</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Some keys are system-locked</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">UNIQUE</td><td><span class="status new">New</span></td><td>(module, config_key)</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">enum_value_catalog</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">enum_value_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">key_id</td><td><span class="status new">New</span></td><td>INT | IDX</td><td>Logical key reference (no FK)</td></tr>
+          <tr><td class="mono">enum_code</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>Machine code: RIDE_LOCAL</td></tr>
+          <tr><td class="mono">enum_label</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL</td><td>Display: &quot;Local Ride&quot;</td></tr>
+          <tr><td class="mono">sort_order</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">metadata_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>icon_url, color, extra flags</td></tr>
+          <tr><td class="mono">UNIQUE</td><td><span class="status new">New</span></td><td>(key_id, enum_code)</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">deployment_configuration_values</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">value_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">deployment_id</td><td><span class="status new">New</span></td><td>INT | IDX</td><td>Module 2 internal reference</td></tr>
+          <tr><td class="mono">key_id</td><td><span class="status new">New</span></td><td>INT | IDX</td><td>Logical key reference (no FK)</td></tr>
+          <tr><td class="mono">config_value</td><td><span class="status new">New</span></td><td>TEXT | NOT NULL</td><td>Stored as string, typed by key</td></tr>
+          <tr><td class="mono">version</td><td><span class="status new">New</span></td><td>INT | DEFAULT 1</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_from</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_to</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">changed_by</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Actor user ID snapshot (no FK to core tables)</td></tr>
+          <tr><td class="mono">changed_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">UNIQUE</td><td><span class="status new">New</span></td><td>(deployment_id, key_id) WHERE effective_to IS NULL</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">configuration_change_history</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">change_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">deployment_id</td><td><span class="status new">New</span></td><td>INT | IDX</td><td>Module 2 internal reference</td></tr>
+          <tr><td class="mono">module</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">table_name</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">field_name</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">old_value</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">new_value</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">changed_by</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Actor user ID snapshot (no FK to core tables)</td></tr>
+          <tr><td class="mono">changed_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">change_reason</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">users</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">user_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">phone_number</td><td><span class="status exist">Existing</span></td><td>VARCHAR(20) | NOT NULL, IDX</td><td>Shared across roles (BR-19)</td></tr>
+          <tr><td class="mono">email</td><td><span class="status exist">Existing</span></td><td>VARCHAR(255) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">password_hash</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Admin only</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | DEFAULT &#39;active&#39;</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">last_login</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">user_login_history</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ip_address</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NULLABLE</td><td>Login IP for security audit</td></tr>
+          <tr><td class="mono">device_id</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NULLABLE</td><td>Login device for security alert</td></tr>
+          <tr><td class="mono">logged_in_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">user_details</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | PK, FK -&gt; users</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">first_name</td><td><span class="status exist">Existing</span></td><td>VARCHAR(100) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">last_name</td><td><span class="status exist">Existing</span></td><td>VARCHAR(100) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">profile_picture_url</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">gender</td><td><span class="status exist">Existing</span></td><td>VARCHAR(10) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">date_of_birth</td><td><span class="status exist">Existing</span></td><td>DATE | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">street1</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">street2</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">area</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">city</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">state</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">postal_code</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">country</td><td><span class="status exist">Existing</span></td><td>VARCHAR | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">emergency_contact_name</td><td><span class="status exist">Existing</span></td><td>VARCHAR(100) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">emergency_contact_phone</td><td><span class="status exist">Existing</span></td><td>VARCHAR(20) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">language</td><td><span class="status exist">Existing</span></td><td>VARCHAR(20) | NULLABLE</td><td>UI preference language (shared across roles)</td></tr>
+          <tr><td class="mono">timezone</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">language_preference_id (FK:enum_value_catalog)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; enum_value_catalog, NULLABLE</td><td>NEW - Normalized from free-text language</td></tr>
+          <tr><td class="mono">legal_acceptance_version</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NULLABLE</td><td>NEW - T&amp;C version user accepted</td></tr>
+          <tr><td class="mono">legal_accepted_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>NEW - When T&amp;C was accepted</td></tr>
+          <tr><td class="mono">default_saved_address_id (FK:saved_addresses)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; saved_addresses, NULLABLE</td><td>NEW - Rider&#39;s default pickup address</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">roles</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">role_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">role_name</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | NOT NULL, UNQ</td><td>rider / driver / admin / support</td></tr>
+          <tr><td class="mono">description</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">user_roles</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">role_id (FK:roles)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; roles, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">user_refresh_tokens</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">refresh_token</td><td><span class="status exist">Existing</span></td><td>TEXT | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_revoked</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">revoked_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ip_address</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">device_key</td><td><span class="status exist">Existing</span></td><td>VARCHAR(255) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_agent</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">expires_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">role_id (FK:roles)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; roles, IDX</td><td>Per-role isolation</td></tr>
+          <tr><td class="mono">client_app_type_id</td><td><span class="status exist">Existing</span></td><td>INT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">token_hash</td><td><span class="status new">New</span></td><td>VARCHAR(512) | NOT NULL, UNQ, IDX</td><td>NEW - Hashed token for fast lookup</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">user_notification_settings</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">notification_type_id (FK:notification_types)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; notification_types</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_enabled</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">channel</td><td><span class="status new">New</span></td><td>VARCHAR(20) | DEFAULT &#39;push&#39;</td><td>NEW - push / sms / whatsapp / in_app</td></tr>
+          <tr><td class="mono">category</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NULLABLE</td><td>NEW - operational / marketing / safety</td></tr>
+          <tr><td class="mono">is_mandatory</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>NEW - Cannot be disabled by user</td></tr>
+          <tr><td class="mono">quiet_hours_start</td><td><span class="status new">New</span></td><td>TIME | NULLABLE</td><td>NEW - User-defined quiet start</td></tr>
+          <tr><td class="mono">quiet_hours_end</td><td><span class="status new">New</span></td><td>TIME | NULLABLE</td><td>NEW - User-defined quiet end</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">user_referral_profiles</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | PK, FK -&gt; users</td><td>One referral profile per user</td></tr>
+          <tr><td class="mono">referral_code</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL, UNQ, IDX</td><td>Stable referral code</td></tr>
+          <tr><td class="mono">referral_status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | DEFAULT &#39;active&#39;</td><td>active / disabled</td></tr>
+          <tr><td class="mono">generated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">disabled_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_types</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ride_type_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>PK</td></tr>
+          <tr><td class="mono">ride_type_name</td><td><span class="status exist">Existing</span></td><td>VARCHAR(100)</td><td>Ride type display name</td></tr>
+          <tr><td class="mono">description</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>DEFAULT true</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_pricing</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id (pricing_id)</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_type_id (FK:ride_types)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; ride_types, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_type_id (FK:vehicle_types)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; vehicle_types, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">base_fare</td><td><span class="status exist">Existing</span></td><td>DECIMAL(10,2) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">per_km_rate</td><td><span class="status exist">Existing</span></td><td>DECIMAL(10,2) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">per_min_rate</td><td><span class="status exist">Existing</span></td><td>DECIMAL(10,2) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">minimum_fare</td><td><span class="status exist">Existing</span></td><td>DECIMAL(10,2)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">waiting_charge</td><td><span class="status exist">Existing</span></td><td>DECIMAL(10,2)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">surge_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">surge_multiplier</td><td><span class="status new">New</span></td><td>DECIMAL(4,2) | CHECK &gt; 1.0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">surge_start_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">surge_end_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">free_cancellation_window_min</td><td><span class="status new">New</span></td><td>INT | DEFAULT 5</td><td>Minutes after booking</td></tr>
+          <tr><td class="mono">post_accept_cancel_fee</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">post_arrival_cancel_fee</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_from</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_to</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_published</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Only published rules apply</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_peak_hours</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">peak_hour_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>PK</td></tr>
+          <tr><td class="mono">peak_day</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>Day name/category</td></tr>
+          <tr><td class="mono">start_time</td><td><span class="status exist">Existing</span></td><td>TIME</td><td>Peak window start</td></tr>
+          <tr><td class="mono">end_time</td><td><span class="status exist">Existing</span></td><td>TIME</td><td>Peak window end</td></tr>
+          <tr><td class="mono">is_weekend</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">is_holiday</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">peak_multiplier</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>NULLABLE surge multiplier</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>DEFAULT true</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_requests</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ride_request_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, IDX</td><td>Rider</td></tr>
+          <tr><td class="mono">pick_up_location</td><td><span class="status exist">Existing</span></td><td>TEXT | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">drop_off_location</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">pick_up_latitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">pick_up_longitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">drop_off_latitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">drop_off_longitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_type_id (FK:ride_types)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; ride_types</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_type_id (FK:vehicle_types)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; vehicle_types</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">rental_hours</td><td><span class="status exist">Existing</span></td><td>INT | NULLABLE</td><td>Package rides</td></tr>
+          <tr><td class="mono">outstation_return</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">estimated_fare</td><td><span class="status exist">Existing</span></td><td>DECIMAL/INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">estimated_distance</td><td><span class="status exist">Existing</span></td><td>DECIMAL/INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">estimated_duration</td><td><span class="status exist">Existing</span></td><td>DECIMAL/INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">pick_up_datetime</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">drop_off_datetime</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">booking_source</td><td><span class="status new">New</span></td><td>VARCHAR(30) | DEFAULT &#39;rider_app&#39;</td><td>rider_app / admin / phone / support</td></tr>
+          <tr><td class="mono">assigned_driver_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>Denormalized for fast read</td></tr>
+          <tr><td class="mono">scheduled_pickup_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Scheduled/advance booking</td></tr>
+          <tr><td class="mono">promo_code</td><td><span class="status new">New</span></td><td>VARCHAR(30) | NULLABLE</td><td>Applied promo</td></tr>
+          <tr><td class="mono">points_redeemed</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Loyalty points used</td></tr>
+          <tr><td class="mono">collection_mode_preference</td><td><span class="status new">New</span></td><td>VARCHAR(30) | NULLABLE</td><td>cash / upi / other</td></tr>
+          <tr><td class="mono">idempotency_key</td><td><span class="status new">New</span></td><td>UUID | UNQ, IDX</td><td>Prevent duplicate bookings on retry</td></tr>
+          <tr><td class="mono">current_sequence_no</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Real-time bus ordering</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_trips</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ride_trip_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_request_id (FK:ride_requests)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; ride_requests</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_id (FK:vehicle_details)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; vehicle_details</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">start_time</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">end_time</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">distance</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">fare</td><td><span class="status exist">Existing</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">start_otp</td><td><span class="status exist">Existing</span></td><td>VARCHAR(10) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">end_otp</td><td><span class="status exist">Existing</span></td><td>VARCHAR(10) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">trip_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>local / outstation / package</td></tr>
+          <tr><td class="mono">estimated_fare_snapshot</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NULLABLE</td><td>Fare at booking time</td></tr>
+          <tr><td class="mono">fare_breakdown_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>{base, distance, surge, tax, total}</td></tr>
+          <tr><td class="mono">cancellation_fee</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_commission_amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">package_deduction_amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">rider_rating_submitted_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_rating_submitted_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">force_end_reason</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Admin force-end reason</td></tr>
+          <tr><td class="mono">no_show_reason</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users</td><td>Rider; denormalized from request</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_bookings</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">booking_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_request_id (FK:ride_requests)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; ride_requests, UNQ</td><td>One booking per request</td></tr>
+          <tr><td class="mono">assigned_driver_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">assignment_time</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">estimated_fare</td><td><span class="status new">New</span></td><td>DECIMAL(10,2)</td><td>At time of assignment</td></tr>
+          <tr><td class="mono">booking_status</td><td><span class="status new">New</span></td><td>VARCHAR(30) | NOT NULL</td><td>pending / confirmed / cancelled</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_booking_reliability</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">booking_id (FK:ride_bookings)</td><td><span class="status new">New</span></td><td>INT | PK, FK -&gt; ride_bookings</td><td>1:1 side table</td></tr>
+          <tr><td class="mono">pre_assignment_status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE, IDX</td><td>pending / assigned / failed</td></tr>
+          <tr><td class="mono">reconfirmation_status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE, IDX</td><td>pending / rider_done / driver_done / complete</td></tr>
+          <tr><td class="mono">rider_reconfirmed_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_reconfirmed_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">primary_driver_id</td><td><span class="status new">New</span></td><td>INT | NULLABLE, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">backup_driver_id</td><td><span class="status new">New</span></td><td>INT | NULLABLE, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">no_show_actor_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>rider / driver</td></tr>
+          <tr><td class="mono">no_show_recorded_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">sla_due_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">sla_breach_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">sla_breach_reason</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">reliability_state</td><td><span class="status new">New</span></td><td>VARCHAR(20) | DEFAULT &#39;on_track&#39;, IDX</td><td>on_track / at_risk / breached / recovered</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_history</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ride_trip_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">pickup_location</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">dropoff_location</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_type</td><td><span class="status exist">Existing</span></td><td>VARCHAR</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>VARCHAR</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancellation_status</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancelled_by</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancellation_reason</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">timestamps</td><td><span class="status new">New</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">total_fare</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">total_distance</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_duration</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">booking_source</td><td><span class="status new">New</span></td><td>VARCHAR(30)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancellation_actor_type</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>rider / driver / admin / system</td></tr>
+          <tr><td class="mono">dispute_flag</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>&#226;ž•</td></tr>
+          <tr><td class="mono">package_impact_json</td><td><span class="status exist">Existing</span></td><td>JSONB</td><td>&#226;ž•</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_cancellations</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">cancellation_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_trip_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancellation_reason</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancellation_timestamp</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">cancelled_by_role</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>rider / driver / admin / system</td></tr>
+          <tr><td class="mono">cancellation_stage</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>pre_accept / post_accept / post_arrival</td></tr>
+          <tr><td class="mono">cancellation_fee_charged</td><td><span class="status new">New</span></td><td>DECIMAL(10,2)</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ride_payments</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">payment_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_trip_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_id</td><td><span class="status new">New</span></td><td>INT</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_method</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_status</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_amount</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_timestamp</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">transaction_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_gateway</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_details</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payer_type</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>rider / driver / platform</td></tr>
+          <tr><td class="mono">purpose</td><td><span class="status new">New</span></td><td>VARCHAR(30)</td><td>ride_fare / package_purchase / refund</td></tr>
+          <tr><td class="mono">promo_discount_amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">tax_amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">net_amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2)</td><td>After discounts and tax</td></tr>
+          <tr><td class="mono">settlement_reference</td><td><span class="status new">New</span></td><td>VARCHAR(100)</td><td>External settlement ID</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">trip_events</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">event_id</td><td><span class="status new">New</span></td><td>UUID | PK, DEFAULT gen_random_uuid()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">trip_id (FK:ride_trips)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; ride_trips, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">event_type</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>status_changed / otp_verified / ended etc</td></tr>
+          <tr><td class="mono">sequence_no</td><td><span class="status new">New</span></td><td>INT | NOT NULL</td><td>Strict ordering</td></tr>
+          <tr><td class="mono">payload_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">persisted_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">INDEX</td><td><span class="status new">New</span></td><td>(trip_id, sequence_no)</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">outbox_events</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">outbox_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">aggregate_id</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL, IDX</td><td>Entity reference (trip_id, booking_id)</td></tr>
+          <tr><td class="mono">aggregate_type</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>ride_trip / ride_request</td></tr>
+          <tr><td class="mono">event_type</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payload_json</td><td><span class="status new">New</span></td><td>JSONB | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | DEFAULT &#39;pending&#39;</td><td>pending / sent / failed / dead_lettered</td></tr>
+          <tr><td class="mono">retry_count</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">next_retry_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>IDX</td></tr>
+          <tr><td class="mono">dead_lettered_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">outbox_delivery_attempts</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">attempt_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">outbox_id (FK:outbox_events)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; outbox_events, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">provider</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>azure_service_bus / redis</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">response_detail</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">attempted_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_details</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">driver_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, UNQ</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">known_language</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Languages for rider communication (driver-role only)</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">approval_status_id (FK)</td><td><span class="status exist">Existing</span></td><td>INT | Enum FK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_type_id (FK:vehicle_types)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; vehicle_types</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_type_id</td><td><span class="status exist">Existing</span></td><td>INT | Enum</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">review_notes</td><td><span class="status exist">Existing</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">primary_zone_id</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Primary operating zone/city</td></tr>
+          <tr><td class="mono">ride_category_flags</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>{local:true, outstation:false, package:true}</td></tr>
+          <tr><td class="mono">package_required_for_dispatch</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Dispatch blocked if no active package</td></tr>
+          <tr><td class="mono">restricted_reason</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Policy restriction reason</td></tr>
+          <tr><td class="mono">restricted_until</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Timed restriction</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_status</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">driver_status_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, UNQ, IDX</td><td>One status row per driver</td></tr>
+          <tr><td class="mono">vehicle_id (FK:vehicle_details)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; vehicle_details, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>VARCHAR(20) | NOT NULL</td><td>online / offline / on_trip</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">lock_reason</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NULLABLE</td><td>active_trip / policy_violation / no_package</td></tr>
+          <tr><td class="mono">current_trip_id (FK:ride_trips)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; ride_trips, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">last_status_changed_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status_source</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>driver_action / system / admin</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_shift_log</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">shift_id</td><td><span class="status exist">Existing</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">vehicle_id (FK:vehicle_details)</td><td><span class="status exist">Existing</span></td><td>INT | FK -&gt; vehicle_details</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">check_in_time</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">check_out_time</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">check_in_latitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">check_in_longitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">check_out_latitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">check_out_longitude</td><td><span class="status exist">Existing</span></td><td>DECIMAL | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">shift_status</td><td><span class="status exist">Existing</span></td><td>INT | Enum</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">first_online_time</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>First time driver went online in shift</td></tr>
+          <tr><td class="mono">final_offline_time</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Last time driver went offline</td></tr>
+          <tr><td class="mono">total_online_duration_min</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Running total in minutes</td></tr>
+          <tr><td class="mono">total_trips_completed</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">total_earnings</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">total_cancellations</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">total_no_shows</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">vehicle_details</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">vehicle_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>PK</td></tr>
+          <tr><td class="mono">vehicle_type_id</td><td><span class="status exist">Existing</span></td><td>INT/ENUM</td><td>Vehicle type reference</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT</td><td>FK -&gt; users, NULLABLE</td></tr>
+          <tr><td class="mono">vehicle_registration_number</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>REQUIRED</td></tr>
+          <tr><td class="mono">vehicle_make</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">vehicle_model</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">vehicle_year</td><td><span class="status exist">Existing</span></td><td>INT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">seating_capacity</td><td><span class="status exist">Existing</span></td><td>INT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">fuel_type</td><td><span class="status exist">Existing</span></td><td>VARCHAR(20)</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">color</td><td><span class="status exist">Existing</span></td><td>VARCHAR(30)</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">registration_date</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">insurance_number</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">insurance_expiry_date</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>INT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">approval_date</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">rejection_reason</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">approval_status_id</td><td><span class="status exist">Existing</span></td><td>INT/ENUM</td><td>Approval status reference</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">vehicle_locations</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">vehicle_location_id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>PK</td></tr>
+          <tr><td class="mono">vehicle_id (FK:vehicle_details)</td><td><span class="status exist">Existing</span></td><td>INT</td><td>FK -&gt; vehicle_details</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status exist">Existing</span></td><td>INT</td><td>FK -&gt; users</td></tr>
+          <tr><td class="mono">latitude</td><td><span class="status exist">Existing</span></td><td>DOUBLE/DECIMAL</td><td>Live GPS</td></tr>
+          <tr><td class="mono">longitude</td><td><span class="status exist">Existing</span></td><td>DOUBLE/DECIMAL</td><td>Live GPS</td></tr>
+          <tr><td class="mono">timestamp</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Location timestamp</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>INT/ENUM</td><td>Driver status snapshot</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>DEFAULT true</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">vehicle_types, vehicle_models</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">All columns</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>No explicit column list provided in this section</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_vehicle_link</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">link_id (FK)</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>FK</td></tr>
+          <tr><td class="mono">driver_id (user_id) (FK)</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>FK</td></tr>
+          <tr><td class="mono">vehicle_id (FK)</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>FK</td></tr>
+          <tr><td class="mono">approval_status_id</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">start_date</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">end_date</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">link_type</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">link_status</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">effective_from</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">effective_to</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">approved_by</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">approved_at</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">change_reason</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_vehicle_link_history</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Existing history columns</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Keep as-is</td></tr>
+          <tr><td class="mono">event_type</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">actor_user_id</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">role</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">old_vehicle_id</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">new_vehicle_id</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">old_link_status</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">new_link_status</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">event_reason</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+          <tr><td class="mono">event_at</td><td><span class="status change">Changed</span></td><td>Not specified</td><td>Added in BRD delta</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_packages</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">package_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">package_name</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">description</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">price</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">validity_days</td><td><span class="status new">New</span></td><td>INT | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_categories_json</td><td><span class="status new">New</span></td><td>JSONB | NOT NULL</td><td>{local, outstation, package} enabled flags</td></tr>
+          <tr><td class="mono">commission_benefit_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Override commission rates</td></tr>
+          <tr><td class="mono">activation_rules_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_package_purchases</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">purchase_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">package_id (FK:driver_packages)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; driver_packages</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">promo_code</td><td><span class="status new">New</span></td><td>VARCHAR(30) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">discount_amount</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_mode</td><td><span class="status new">New</span></td><td>VARCHAR(30) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payment_ref</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>pending / active / expired / refunded</td></tr>
+          <tr><td class="mono">purchased_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">activated_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">expires_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>IDX</td></tr>
+          <tr><td class="mono">auto_renew</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">driver_package_transactions</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">txn_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">purchase_id (FK:driver_package_purchases)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; driver_package_purchases, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">event_type</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>activated / expired / refunded / renewed</td></tr>
+          <tr><td class="mono">actor_user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">actor_role</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>driver / admin / system</td></tr>
+          <tr><td class="mono">remarks</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">package_refund_claims</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">claim_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">purchase_id (FK:driver_package_purchases)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; driver_package_purchases</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>pending / approved / rejected</td></tr>
+          <tr><td class="mono">reason_code</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">final_decision_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">final_decision_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">package_refund_evidence</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">evidence_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">claim_id (FK:package_refund_claims)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; package_refund_claims, UNQ</td><td>One evidence per claim</td></tr>
+          <tr><td class="mono">online_duration_min</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">dispatch_attempts</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">offers_received</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">accepted_count</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">declined_count</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">no_response_count</td><td><span class="status new">New</span></td><td>INT | DEFAULT 0</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">geo_zone_coverage_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Zones where dispatch was attempted</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">saved_addresses</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">address_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">label</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>Home / Work / Other</td></tr>
+          <tr><td class="mono">full_address</td><td><span class="status new">New</span></td><td>TEXT | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">latitude</td><td><span class="status new">New</span></td><td>DECIMAL(10,7) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">longitude</td><td><span class="status new">New</span></td><td>DECIMAL(10,7) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">landmark</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_default</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">last_used_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">referral_events</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">referral_event_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">referrer_user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">referred_user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">referral_code</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">qualification_status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>pending / qualified / rewarded</td></tr>
+          <tr><td class="mono">reward_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>points / cash / credit</td></tr>
+          <tr><td class="mono">reward_value</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">credited_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">loyalty_ledger</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">transaction_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_trip_id (FK:ride_trips)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; ride_trips, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">transaction_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>earn / redeem / expire / adjust</td></tr>
+          <tr><td class="mono">points_delta</td><td><span class="status new">New</span></td><td>INT | NOT NULL, CHECK != 0</td><td>Positive = earn, Negative = redeem</td></tr>
+          <tr><td class="mono">balance_after</td><td><span class="status new">New</span></td><td>INT | NOT NULL, CHECK &gt;= 0</td><td>Running balance</td></tr>
+          <tr><td class="mono">expiry_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">remarks</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">tickets</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">ticket_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">subject</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">description</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">priority</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">assigned_to_user_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_type</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>rider / driver</td></tr>
+          <tr><td class="mono">query_type_id (FK:enum_value_catalog)</td><td><span class="status new">New</span></td><td>INT</td><td>FK -&gt; enum_value_catalog (ticket category)</td></tr>
+          <tr><td class="mono">linked_ride_trip_id (FK:ride_trips)</td><td><span class="status new">New</span></td><td>INT</td><td>FK -&gt; ride_trips, NULLABLE</td></tr>
+          <tr><td class="mono">linked_package_purchase_id (FK:driver_package_purchases)</td><td><span class="status new">New</span></td><td>INT</td><td>FK -&gt; driver_package_purchases, NULLABLE</td></tr>
+          <tr><td class="mono">sla_due_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Response SLA deadline</td></tr>
+          <tr><td class="mono">first_response_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">resolved_at</td><td><span class="status new">New</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">escalation_level</td><td><span class="status exist">Existing</span></td><td>INT</td><td>&#226;ž•</td></tr>
+          <tr><td class="mono">escalated_to_user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT</td><td>FK -&gt; users, NULLABLE</td></tr>
+          <tr><td class="mono">resolution_code</td><td><span class="status new">New</span></td><td>VARCHAR(50)</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">resolution_note_public</td><td><span class="status new">New</span></td><td>TEXT</td><td>Visible to rider/driver</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ticket_comments</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">comment_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ticket_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">comment_text</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">is_internal_note</td><td><span class="status new">New</span></td><td>BOOLEAN</td><td>Hidden from rider/driver</td></tr>
+          <tr><td class="mono">attachment_url</td><td><span class="status new">New</span></td><td>TEXT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">actor_role</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>rider / driver / support / admin</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">ticket_actions</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>PK</td></tr>
+          <tr><td class="mono">ticket_id (FK:tickets)</td><td><span class="status exist">Existing</span></td><td>INT</td><td>FK -&gt; tickets</td></tr>
+          <tr><td class="mono">ticket_type</td><td><span class="status exist">Existing</span></td><td>INT</td><td>Existing ticket type/category code</td></tr>
+          <tr><td class="mono">action_by</td><td><span class="status exist">Existing</span></td><td>INT</td><td>User ID who performed the action</td></tr>
+          <tr><td class="mono">action_type</td><td><span class="status exist">Existing</span></td><td>VARCHAR(50)</td><td>Action name/type</td></tr>
+          <tr><td class="mono">action_details</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>Existing action detail payload</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Action creation timestamp</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">sos_alerts</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">sos_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Rider or driver who triggered</td></tr>
+          <tr><td class="mono">ride_trip_id (FK:ride_trips)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; ride_trips, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">triggered_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">latitude</td><td><span class="status new">New</span></td><td>DECIMAL(10,7) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">longitude</td><td><span class="status new">New</span></td><td>DECIMAL(10,7) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>open / acknowledged / resolved</td></tr>
+          <tr><td class="mono">escalation_history_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>[{timestamp, status_from, status_to, actor}]</td></tr>
+          <tr><td class="mono">resolved_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">resolved_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">policy_violation_alerts</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">alert_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">driver_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">violation_type</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>no_package / idle_too_long / complaint</td></tr>
+          <tr><td class="mono">severity</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>info / warning / critical</td></tr>
+          <tr><td class="mono">action_required</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>open / acknowledged / actioned</td></tr>
+          <tr><td class="mono">acknowledged_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">actioned_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">actioned_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">expires_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">approval_history</div>
+        <span class="status change">Changed</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">entity_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">entity_type</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">previous_status_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">new_status_id</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">changed_by</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">changed_at</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">review_notes</td><td><span class="status exist">Existing</span></td><td>Not specified</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">workflow_type</td><td><span class="status new">New</span></td><td>VARCHAR(50)</td><td>driver_onboarding / document / high_impact</td></tr>
+          <tr><td class="mono">workflow_step</td><td><span class="status exist">Existing</span></td><td>INT</td><td>&#226;ž•</td></tr>
+          <tr><td class="mono">decision</td><td><span class="status new">New</span></td><td>VARCHAR(20)</td><td>approved / rejected / verified</td></tr>
+          <tr><td class="mono">old_value_json</td><td><span class="status new">New</span></td><td>JSONB</td><td>Pre-change snapshot</td></tr>
+          <tr><td class="mono">new_value_json</td><td><span class="status new">New</span></td><td>JSONB</td><td>Post-change snapshot</td></tr>
+          <tr><td class="mono">change_request_id (FK:high_impact_change_requests)</td><td><span class="status new">New</span></td><td>INT</td><td>FK -&gt; high_impact_change_requests, NULLABLE</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">high_impact_change_requests</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">request_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">module</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>pricing / driver / support / config</td></tr>
+          <tr><td class="mono">target_entity</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL</td><td>Table or config key name</td></tr>
+          <tr><td class="mono">old_value_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">new_value_json</td><td><span class="status new">New</span></td><td>JSONB | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">rationale</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">impact_note</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">effective_time</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>pending / approved / rejected / applied</td></tr>
+          <tr><td class="mono">created_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">high_impact_change_approvals</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">approval_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">request_id (FK:high_impact_change_requests)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; high_impact_change_requests, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">step_role</td><td><span class="status new">New</span></td><td>VARCHAR(30) | NOT NULL</td><td>lead / manager / director</td></tr>
+          <tr><td class="mono">step_order</td><td><span class="status new">New</span></td><td>INT | NOT NULL</td><td>1, 2, 3</td></tr>
+          <tr><td class="mono">decision</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>approved / rejected</td></tr>
+          <tr><td class="mono">decision_note</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">acted_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">acted_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">quote_requests</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">quote_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>If raised by logged-in user</td></tr>
+          <tr><td class="mono">quote_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>outstation / package</td></tr>
+          <tr><td class="mono">pickup_location</td><td><span class="status new">New</span></td><td>TEXT | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">drop_location</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">pickup_lat</td><td><span class="status new">New</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">pickup_lng</td><td><span class="status new">New</span></td><td>DECIMAL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">est_hours</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">est_days</td><td><span class="status new">New</span></td><td>INT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">est_km</td><td><span class="status new">New</span></td><td>DECIMAL | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">estimated_amount_min</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">estimated_amount_max</td><td><span class="status new">New</span></td><td>DECIMAL(10,2) | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">validity_until</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">quoted_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>Admin who quoted</td></tr>
+          <tr><td class="mono">source</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>admin / phone / portal</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>draft / shared / accepted / expired</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">quote_booking_links</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">quote_id (FK:quote_requests)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; quote_requests</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">ride_request_id (FK:ride_requests)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; ride_requests</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">linked_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">report_templates</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">template_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">name</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">domain</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>rides / drivers / revenue / support</td></tr>
+          <tr><td class="mono">filters_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">dimensions_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">metrics_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">visibility_scope</td><td><span class="status new">New</span></td><td>VARCHAR(20) | DEFAULT &#39;admin&#39;</td><td>admin / management</td></tr>
+          <tr><td class="mono">created_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">report_schedules</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">schedule_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">template_id (FK:report_templates)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; report_templates, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">frequency</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>daily / weekly / monthly</td></tr>
+          <tr><td class="mono">next_run_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">recipients_json</td><td><span class="status new">New</span></td><td>JSONB | NOT NULL</td><td>[email, email, ...]</td></tr>
+          <tr><td class="mono">output_format</td><td><span class="status new">New</span></td><td>VARCHAR(10) | DEFAULT &#39;csv&#39;</td><td>csv / xlsx / pdf</td></tr>
+          <tr><td class="mono">is_enabled</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT true</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">report_runs</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">run_id</td><td><span class="status new">New</span></td><td>SERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">template_id (FK:report_templates)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; report_templates, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">started_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">completed_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">status</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>running / completed / failed</td></tr>
+          <tr><td class="mono">file_url</td><td><span class="status new">New</span></td><td>TEXT | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">generated_by (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, NULLABLE</td><td>NULL = scheduled</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now()</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">immutable_audit_logs</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">audit_id</td><td><span class="status new">New</span></td><td>BIGSERIAL | PK</td><td>Large primary key for scale</td></tr>
+          <tr><td class="mono">actor_user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">actor_role</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">module</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">entity_name</td><td><span class="status new">New</span></td><td>VARCHAR(100) | NOT NULL, IDX</td><td>Table name</td></tr>
+          <tr><td class="mono">entity_id</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL, IDX</td><td>Entity PK (stored as string)</td></tr>
+          <tr><td class="mono">action_type</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NOT NULL</td><td>create / update / delete / view</td></tr>
+          <tr><td class="mono">old_value_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">new_value_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">source</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>api / admin_portal / system / event_bus</td></tr>
+          <tr><td class="mono">occurred_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now(), IDX</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">notification_types</div>
+        <span class="status exist">Existing</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">id</td><td><span class="status exist">Existing</span></td><td>INT</td><td>PK</td></tr>
+          <tr><td class="mono">name</td><td><span class="status exist">Existing</span></td><td>VARCHAR</td><td>Notification type name</td></tr>
+          <tr><td class="mono">description</td><td><span class="status exist">Existing</span></td><td>TEXT</td><td>NULLABLE</td></tr>
+          <tr><td class="mono">is_active</td><td><span class="status exist">Existing</span></td><td>BOOLEAN</td><td>DEFAULT true</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">updated_at</td><td><span class="status exist">Existing</span></td><td>TIMESTAMP</td><td>NULLABLE</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <div class="card-header">
+        <div class="table-name">notification_inbox</div>
+        <span class="status new">New</span>
+      </div>
+      <table>
+        <thead><tr><th style="width:24%">Column Name</th><th style="width:16%">Status</th><th style="width:20%">Type</th><th style="width:40%">Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">notification_id</td><td><span class="status new">New</span></td><td>BIGSERIAL | PK</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">user_id (FK:users)</td><td><span class="status new">New</span></td><td>INT | FK -&gt; users, IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">role</td><td><span class="status new">New</span></td><td>VARCHAR(20) | NULLABLE</td><td>rider / driver / admin</td></tr>
+          <tr><td class="mono">category</td><td><span class="status new">New</span></td><td>VARCHAR(50) | NOT NULL</td><td>operational / marketing / safety</td></tr>
+          <tr><td class="mono">title</td><td><span class="status new">New</span></td><td>VARCHAR(255) | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">body</td><td><span class="status new">New</span></td><td>TEXT | NOT NULL</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">payload_json</td><td><span class="status new">New</span></td><td>JSONB | NULLABLE</td><td>{action_url, deep_link, icon_url}</td></tr>
+          <tr><td class="mono">is_read</td><td><span class="status new">New</span></td><td>BOOLEAN | DEFAULT false</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">created_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | DEFAULT now(), IDX</td><td>Not specified in source</td></tr>
+          <tr><td class="mono">expires_at</td><td><span class="status new">New</span></td><td>TIMESTAMP | NULLABLE</td><td>Not specified in source</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>
+

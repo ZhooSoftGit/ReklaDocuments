@@ -4,9 +4,9 @@
 | Field         | Details                                          |
 |---------------|--------------------------------------------------|
 | Document ID   | BRD-REKLA-DRIVER-PRICING-005                     |
-| Version       | 1.0                                              |
-| Status        | Draft                                            |
-| Date          | March 24, 2026                                   |
+| Version       | 1.1                                              |
+| Status        | Draft (Business Complete for Architecture Handover) |
+| Date          | March 25, 2026                                   |
 | Prepared By   | ZhooSoft Team                                    |
 | Parent BRDs   | [BRD-REKLA-MASTER-001](01_BRD_Rekla_Ride_App.md), [BRD-REKLA-DRIVER-003](03_BRD_Driver_App.md), [BRD-REKLA-ADMIN-004](04_BRD_Admin_Portal.md) |
 
@@ -26,6 +26,11 @@
    - [3.7 Transparency & Driver Communication](#37-transparency--driver-communication)
    - [3.8 Admin Configuration & Operational Controls](#38-admin-configuration--operational-controls)
    - [3.9 Exceptions, Validation & Fallback Rules](#39-exceptions-validation--fallback-rules)
+   - [3.10 Business Governance: Eligibility, Refunds, and Adjustments](#310-business-governance-eligibility-refunds-and-adjustments)
+   - [3.11 End-to-End Business Scenarios](#311-end-to-end-business-scenarios)
+   - [3.12 Revenue Protection, Compliance, and Misuse Controls](#312-revenue-protection-compliance-and-misuse-controls)
+   - [3.13 Business Monitoring & Decision KPIs](#313-business-monitoring--decision-kpis)
+   - [3.14 Rollout, Change Management & Communication Policy](#314-rollout-change-management--communication-policy)
 4. [Technical Specification Readiness Inputs](#4-technical-specification-readiness-inputs)
    - [4.1 Pricing States](#41-pricing-states)
    - [4.2 Core Data Objects](#42-core-data-objects)
@@ -33,7 +38,8 @@
    - [4.4 Key Events & Notifications](#44-key-events--notifications)
 5. [Driver Pricing Non-Functional Requirements](#5-driver-pricing-non-functional-requirements)
 6. [Assumptions & Dependencies](#6-assumptions--dependencies)
-7. [Approval](#7-approval)
+7. [Business Acceptance Criteria](#7-business-acceptance-criteria)
+8. [Approval](#8-approval)
 
 ---
 
@@ -224,6 +230,129 @@ Package Model enabled by config -> Driver opens package options -> Driver select
 
 ---
 
+### 3.10 Business Governance: Eligibility, Refunds, and Adjustments
+
+| ID       | Requirement                                                                                                      | Priority |
+|----------|------------------------------------------------------------------------------------------------------------------|----------|
+| FR-DP58  | Package purchase eligibility shall be governed by business policy, including at minimum account status and compliance status checks. | Must |
+| FR-DP59  | Drivers under suspension, fraud review, or mandatory compliance hold shall not be eligible for package activation until cleared. | Must |
+| FR-DP60  | Package cancellation and refund policy shall be explicitly defined by business, including whether refund is allowed and under which approved reasons. | Must |
+| FR-DP61  | If refund policy allows partial recovery, proration method and approval authority shall be documented and visible to support operations. | Should |
+| FR-DP62  | Any goodwill or exception-based pricing adjustment shall require an auditable reason and authorized approver. | Must |
+| FR-DP63  | Policy changes affecting driver charges must include an effective date and advance communication window. | Must |
+
+---
+
+### 3.11 End-to-End Business Scenarios
+
+#### Scenario A: New Driver Onboarding to Commission
+
+1. Driver is approved and activated.
+2. System assigns Commission Model by default.
+3. Driver sees pricing summary before first ride acceptance.
+4. Zero-commission onboarding rule applies if enabled.
+5. Driver completes rides with transparent pre-acceptance and post-ride pricing records.
+
+Expected Business Outcome:
+
+- New driver starts operations without pricing ambiguity.
+- Platform monetization policy is transparent from day one.
+
+#### Scenario B: Driver Moves from Commission to Package
+
+1. Package Model is enabled by business configuration.
+2. Driver reviews package offerings and terms.
+3. Driver completes package purchase successfully.
+4. Package status becomes active with clear validity window.
+5. New eligible rides apply package benefit with no per-ride commission.
+
+Expected Business Outcome:
+
+- Driver has informed choice.
+- Pricing transition is controlled, auditable, and non-disruptive.
+
+#### Scenario C: Package Expiry and Safe Fallback
+
+1. Active package reaches expiry.
+2. Driver is notified before expiry and at expiry.
+3. Next eligible ride is evaluated under Commission Model.
+4. Driver continues service without downtime.
+
+Expected Business Outcome:
+
+- No ride flow interruption.
+- Revenue policy continuity is maintained.
+
+#### Scenario D: Package Purchase Failure
+
+1. Driver attempts package purchase.
+2. Purchase fails or remains incomplete.
+3. Driver remains on Commission Model.
+4. Driver receives clear message to retry or use alternate path.
+
+Expected Business Outcome:
+
+- No accidental unpaid package activation.
+- Driver operations continue safely.
+
+#### Scenario E: Eligibility Block and Reinstatement
+
+1. Driver attempts package activation while on compliance hold.
+2. Activation is blocked with policy reason.
+3. Support resolves compliance case.
+4. Driver becomes eligible and can activate package.
+
+Expected Business Outcome:
+
+- Compliance policy is enforced.
+- Recovery path is clear for valid drivers.
+
+---
+
+### 3.12 Revenue Protection, Compliance, and Misuse Controls
+
+| ID       | Requirement                                                                                                      | Priority |
+|----------|------------------------------------------------------------------------------------------------------------------|----------|
+| FR-DP64  | Business shall define and maintain anti-misuse rules for abnormal pricing benefit consumption patterns.        | Must |
+| FR-DP65  | Repeated pricing disputes by the same actor shall be reviewable for possible abuse or training intervention.   | Must |
+| FR-DP66  | Critical pricing policy breaches shall support escalation to Finance and Compliance operations.                 | Must |
+| FR-DP67  | Pricing records used for disputes must remain retrievable for audit and regulatory review within retention policy. | Must |
+| FR-DP68  | Any manual pricing override must be role-restricted and captured with reason, actor, timestamp, and approval chain. | Must |
+
+---
+
+### 3.13 Business Monitoring & Decision KPIs
+
+The pricing program shall be evaluated using both operational and strategic business metrics.
+
+| KPI Area | Minimum Metric Set |
+|----------|--------------------|
+| Adoption | Package opt-in rate, package renewal rate, package churn rate |
+| Revenue | Effective take rate, average platform revenue per active driver, commission recovery reliability |
+| Driver Health | Net earnings trend by model, earnings predictability sentiment, pricing-related support ticket rate |
+| Quality | Pricing dispute rate, fallback frequency, policy exception volume |
+| Governance | Unauthorized override attempts, SLA on pricing dispute closure, audit exception count |
+
+Business Reporting Rules:
+
+- KPI views shall be available by city/region, company/tenant, and driver segment.
+- KPI trends shall be reviewed at a defined business cadence (weekly and monthly).
+- Major policy decisions (price changes, package changes) shall reference KPI evidence.
+
+---
+
+### 3.14 Rollout, Change Management & Communication Policy
+
+| ID       | Requirement                                                                                                      | Priority |
+|----------|------------------------------------------------------------------------------------------------------------------|----------|
+| FR-DP69  | Pricing policy rollout shall support phased enablement by business segment (for example city, cohort, or partner fleet). | Must |
+| FR-DP70  | Business shall define rollback conditions for pricing policy rollouts if driver impact exceeds acceptable threshold. | Must |
+| FR-DP71  | Driver communication for any pricing change shall be sent before policy effective date with clear impact statement. | Must |
+| FR-DP72  | Support teams shall receive policy briefing and response guidance before pricing changes go live.              | Must |
+| FR-DP73  | Post-change review shall be completed to confirm expected business outcomes and identify corrective actions.    | Must |
+
+---
+
 ## 4. Technical Specification Readiness Inputs
 
 ### 4.1 Pricing States
@@ -301,7 +430,20 @@ Package Model enabled by config -> Driver opens package options -> Driver select
 
 ---
 
-## 7. Approval
+## 7. Business Acceptance Criteria
+
+This BRD shall be treated as business-complete for architecture handover only when all conditions below are satisfied:
+
+1. Both pricing models and transition rules are unambiguous for all new-ride decisions.
+2. Eligibility, refund, adjustment, and override policies are approved by business owners.
+3. End-to-end scenarios (onboarding, migration, expiry fallback, failure, eligibility block) are validated by Product and Operations.
+4. KPI definitions and reporting ownership are confirmed.
+5. Rollout and rollback governance is approved by Product, Operations, and Finance.
+6. Driver communication obligations are documented with lead times.
+
+---
+
+## 8. Approval
 
 | Role | Name | Status | Date |
 |------|------|--------|------|

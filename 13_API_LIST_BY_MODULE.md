@@ -494,6 +494,101 @@
 
 ---
 
+## Module 15 — BRD Sync Delta (Reliability, Serviceability, Settlement, SLA)
+
+**Service:** ZhooCars.API (with Tracker/Internal support where noted)  
+**Purpose:** Close BRD feature gaps and ensure Success + Negative + Fallback coverage per feature.
+
+### 15A — Dispatch Resilience & No-Driver Fallback
+
+| Method | Path | Auth | Status | Description |
+|--------|------|------|--------|-------------|
+| POST | /api/dispatch/match/start | Internal | 🆕 | Start dispatch matching cycle for booking/request |
+| POST | /api/dispatch/match/rematch | Internal | 🆕 | Trigger rematch attempt with incremented attempt count |
+| POST | /api/dispatch/match/timeout | Internal | 🆕 | Mark dispatch timeout and apply fallback action |
+| GET | /api/dispatch/health | Admin | 🆕 | Dispatch KPIs: match rate, no-driver rate, rematch success |
+
+### 15B — Scheduled Ride Reliability (Package/Outstation)
+
+| Method | Path | Auth | Status | Description |
+|--------|------|------|--------|-------------|
+| POST | /api/scheduled-rides/pre-assign | Admin \| Internal | 🆕 | Pre-assign primary driver for scheduled booking |
+| POST | /api/scheduled-rides/reconfirm/rider | Rider | 🆕 | Rider reconfirmation before scheduled pickup |
+| POST | /api/scheduled-rides/reconfirm/driver | Driver | 🆕 | Driver reconfirmation before scheduled pickup |
+| POST | /api/scheduled-rides/backup-assign | Admin \| Internal | 🆕 | Assign backup driver when primary fails |
+| POST | /api/scheduled-rides/no-show | Admin \| Driver \| Rider | 🆕 | Record no-show actor and trigger policy flow |
+| POST | /api/scheduled-rides/sla-breach/escalate | Internal \| Admin | 🆕 | Trigger scheduled-ride SLA breach playbook |
+| GET | /api/scheduled-rides/at-risk | Admin | 🆕 | List upcoming at-risk scheduled rides |
+
+### 15C — Serviceability & Geo-Governance
+
+| Method | Path | Auth | Status | Description |
+|--------|------|------|--------|-------------|
+| POST | /api/serviceability/check | Rider \| Admin | 🆕 | Validate pickup/drop serviceability and reason codes |
+| GET | /api/admin/service-zones | Admin | 🆕 | List configured service zones |
+| POST | /api/admin/service-zones | Admin | 🆕 | Create service zone |
+| PUT | /api/admin/service-zones/{zoneId} | Admin | 🆕 | Update service zone |
+| GET | /api/admin/geofences | Admin | 🆕 | List geofences by zone/type |
+| POST | /api/admin/geofences | Admin | 🆕 | Create geofence polygon |
+| PUT | /api/admin/geofences/{geofenceId} | Admin | 🆕 | Update geofence polygon or status |
+| POST | /api/location-tamper/report | Internal \| Driver \| Rider | 🆕 | Report spoof/tamper signal |
+| GET | /api/admin/location-tamper/events | Admin | 🆕 | Review tamper events and actions |
+
+### 15D — Driver-Vehicle Linking, Switching, Vendor Mapping
+
+| Method | Path | Auth | Status | Description |
+|--------|------|------|--------|-------------|
+| POST | /api/driverandvehiclelink/switch-request | Driver | 🆕 | Raise driver-vehicle switch request |
+| POST | /api/admin/driverandvehiclelink/switch-approve/{requestId} | Admin | 🆕 | Approve switch request with effective time |
+| POST | /api/admin/driverandvehiclelink/switch-reject/{requestId} | Admin | 🆕 | Reject switch request with reason |
+| GET | /api/driverandvehiclelink/history | Driver \| Admin | 🆕 | Get link mapping history and statuses |
+| POST | /api/admin/vendor/driver-vehicle-assign | Admin | 🆕 | Assign vendor-owned vehicle to eligible driver |
+
+### 15E — Driver Settlement & Payout (Driver-Only Monetization)
+
+| Method | Path | Auth | Status | Description |
+|--------|------|------|--------|-------------|
+| GET | /api/driver/wallet/ledger | Driver | 🆕 | Driver wallet ledger with filters |
+| GET | /api/driver/settlements | Driver | 🆕 | List settlement cycles and status |
+| GET | /api/driver/settlements/{cycleId} | Driver | 🆕 | Detailed settlement breakdown for cycle |
+| GET | /api/driver/payouts | Driver | 🆕 | List payouts and failure reasons |
+| POST | /api/admin/settlements/generate-cycle | Admin | 🆕 | Generate settlement cycle |
+| POST | /api/admin/settlements/{cycleId}/close | Admin | 🆕 | Close and lock settlement cycle |
+| POST | /api/admin/payouts/initiate | Admin | 🆕 | Initiate payout batch |
+| POST | /api/admin/payouts/{payoutId}/retry | Admin | 🆕 | Retry failed payout |
+| POST | /api/admin/payouts/{payoutId}/resolve | Admin | 🆕 | Resolve payout failure manually |
+
+### 15F — Support Ticket SLA, Reopen, Assignment History
+
+| Method | Path | Auth | Status | Description |
+|--------|------|------|--------|-------------|
+| POST | /api/tickets/{ticketId}/assign | Admin \| Support | 🆕 | Assign ticket to team/user |
+| POST | /api/tickets/{ticketId}/reopen | Rider \| Driver \| Admin | 🆕 | Reopen ticket within policy window |
+| POST | /api/tickets/{ticketId}/mark-duplicate | Admin \| Support | 🆕 | Mark duplicate and link parent ticket |
+| GET | /api/tickets/{ticketId}/status-history | JWT | 🆕 | Ticket status transition history |
+| GET | /api/tickets/{ticketId}/assignment-history | Admin \| Support | 🆕 | Assignment timeline history |
+| GET | /api/tickets/{ticketId}/sla-events | Admin \| Support | 🆕 | SLA warning/breach/pause/resume events |
+
+---
+
+## Feature Scenario Coverage Matrix (Mandatory)
+
+| Feature | Success Scenario API Coverage | Negative Scenario API Coverage | Fallback Scenario API Coverage |
+|--------|-------------------------------|--------------------------------|--------------------------------|
+| Local/Instant booking | `/api/taxi/book-ride`, `/api/dispatch/match/start` | `/api/dispatch/match/timeout` | `/api/dispatch/match/rematch`, rider notification flow |
+| Scheduled Package/Outstation | `/api/scheduled-rides/pre-assign`, reconfirm APIs | `/api/scheduled-rides/no-show` | `/api/scheduled-rides/backup-assign`, `/api/scheduled-rides/sla-breach/escalate` |
+| Serviceability/geofence | `/api/serviceability/check` (serviceable) | `/api/serviceability/check` (out_of_service/restricted) | clear user alternative + admin zone reconfiguration APIs |
+| Driver-vehicle mapping | link/create/verify/switch approve APIs | switch reject / invalid active-trip blocking | previous mapping remains active until approved effective switch |
+| Driver settlement/payout | cycle generate/close + payout initiate | payout failure list and failure reason | payout retry/resolve APIs |
+| Support ticket lifecycle | add/update/assign/resolve APIs | invalid state changes, duplicate, SLA breach | reopen, reassignment, escalation, SLA event handling |
+| Referral/reward/rating | referral qualify + coupon/wallet credit + ratings submit | fraud/rejection/dispute APIs | reversal/moderation/dispute-resolution APIs |
+
+Coverage rule:
+1. Every new feature must expose at least one API path each for success, negative, and fallback outcomes.
+2. No feature is release-ready if any of the three scenario paths is missing.
+
+---
+
 ## Summary — API Count by Module
 
 | Module | Total | ✅ Exists | 🔧 Extend | 🆕 New |
@@ -513,6 +608,8 @@
 | 13. Service Provider | 10 | 10 | 0 | 0 |
 | 14. Spare Parts Provider | 4 | 4 | 0 | 0 |
 | **TOTAL** | **190** | **83** | **4** | **103** |
+
+> Note: Totals above are baseline counts from Modules 1-14. Module 15 is a BRD-sync delta layer and should be included in implementation scope even if counts are not yet rolled into baseline totals.
 
 ---
 
